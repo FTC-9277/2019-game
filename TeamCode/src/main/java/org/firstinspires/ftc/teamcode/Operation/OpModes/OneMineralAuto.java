@@ -1,32 +1,76 @@
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.Operation.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
-//@Autonomous(name = "Simple Auto")
-public class SimpleAuto extends LinearOpMode {
+import org.firstinspires.ftc.teamcode.Vision.Sampler;
+
+@Autonomous(name = "One Mineral Marker")
+public class OneMineralAuto extends LinearOpMode{
+    Sampler sample;
     DcMotor fLeft, fRight, bLeft, bRight;
+    Servo marker;
     double currentLeft = 0, currentRight = 0;
-
+    Servo left, right;
+    double climb = 0.23, unhook = 0.975, redeploy = 0.3;
     @Override
     public void runOpMode() throws InterruptedException {
+        left = hardwareMap.get(Servo.class, "left");
+        right = hardwareMap.get(Servo.class, "right");
         fLeft = hardwareMap.get(DcMotor.class, "fLeft");
         fRight = hardwareMap.get(DcMotor.class, "fRight");
         bLeft = hardwareMap.get(DcMotor.class, "bLeft");
         bRight = hardwareMap.get(DcMotor.class, "bRight");
+        marker = hardwareMap.get(Servo.class, "marker");
+        sample = new Sampler(this);
+        left.setPosition(1-climb);
+        right.setPosition(climb);
 
         waitForStart();
 
-        resetEncoders();
+        int mineralPosition = sample.sample();
 
-        drive(600);
+        left.setPosition(1-unhook);
+        right.setPosition(unhook);
+
+        long time = System.currentTimeMillis();
+        while(System.currentTimeMillis() - time < 10000 && opModeIsActive()){
+            Thread.sleep(5);
+        }
 
         resetEncoders();
-        turn(50);
-        resetEncoders();
-        turn (-50);
+        if(mineralPosition == 3){
+            drive(1200);
+            marker.setPosition(0.5);
+        } else if(mineralPosition == 1){
+            drive(200);
+            resetEncoders();
+            turn(125);
+            resetEncoders();
+            drive(600);
+            resetEncoders();
+            turn(-250);
+            resetEncoders();
+            drive(450);
+            marker.setPosition(0.5);
+        } else if(mineralPosition == 2){
+            drive(200);
+            resetEncoders();
+            turn(-125);
+            resetEncoders();
+            drive(600);
+            resetEncoders();
+            turn(250);
+            resetEncoders();
+            drive(450);
+            marker.setPosition(0.5);
+        }
+
     }
+
+
 
     public void resetEncoders() {
         fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -104,7 +148,7 @@ public class SimpleAuto extends LinearOpMode {
                 telemetry.addData("bRIght", bRight.getCurrentPosition());
                 telemetry.update();
 
-                if (currentLeft > -clicks) {
+                if (currentLeft > clicks) {
                     bLeft.setPower(-0.5);
                     fLeft.setPower(-0.5);
                 } else {
@@ -112,7 +156,7 @@ public class SimpleAuto extends LinearOpMode {
                     fLeft.setPower(0);
                 }
 
-                if (currentRight > -clicks) {
+                if (currentRight > clicks) {
                     bRight.setPower(-0.5);
                     fRight.setPower(-0.5);
                 } else {
