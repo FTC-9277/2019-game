@@ -25,7 +25,7 @@ public class AutoDrive extends ExplosiveAuto {
     @Override
     public void body() throws InterruptedException {
         robot.drive.resetEncoders();
-        yaw = robot.drive.getYaw();
+        yaw = robot.drive.getOutput();
         robot.drive.PIDDrive(1500, 0.5);
         robot.drive.PIDTurnToAngle(yaw,5000);
     }

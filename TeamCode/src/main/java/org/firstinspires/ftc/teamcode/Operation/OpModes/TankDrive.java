@@ -5,14 +5,20 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveBNO055;
+import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
+
 @TeleOp(name = "Tank Drive")
 public class TankDrive extends OpMode {
     DcMotor fLeft, fRight, bLeft, bRight;
     Servo left, right;
+    ExplosiveBNO055 gyro;
     double climb = 0.5, rest = 0.3, deploy = 0.85, hook = 0.7;
+    ExplosivesRobot robot;
 
     @Override
     public void init() {
+        robot = new ExplosivesRobot(this);
         fLeft = hardwareMap.get(DcMotor.class, "fLeft");
         fRight = hardwareMap.get(DcMotor.class, "fRight");
         bLeft = hardwareMap.get(DcMotor.class, "bLeft");
@@ -43,6 +49,7 @@ public class TankDrive extends OpMode {
         telemetry.addData("Front Right", fRight.getCurrentPosition());
         telemetry.addData("Back Right", bRight.getCurrentPosition());
         telemetry.addData("Back Left", bLeft.getCurrentPosition());
+        telemetry.addData("Yaw", robot.drive.getOutput());
         if(gamepad1.a){
             fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

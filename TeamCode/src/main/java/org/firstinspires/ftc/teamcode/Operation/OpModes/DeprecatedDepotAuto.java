@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
 
-@Autonomous(name = "One Mineral Crater")
-public class OneMineralCrater extends LinearOpMode{
+//@Autonomous(name = "One Mineral Marker")
+public class DeprecatedDepotAuto extends LinearOpMode{
     Sampler sample;
     DcMotor fLeft, fRight, bLeft, bRight;
     Servo marker;
@@ -42,8 +42,8 @@ public class OneMineralCrater extends LinearOpMode{
 
         resetEncoders();
         if(mineralPosition == 3){
-            drive(600);
-            //marker.setPosition(0.5);
+            drive(1200);
+            marker.setPosition(0.5);
         } else if(mineralPosition == 1){
             drive(200);
             resetEncoders();
@@ -51,10 +51,10 @@ public class OneMineralCrater extends LinearOpMode{
             resetEncoders();
             drive(600);
             resetEncoders();
-            /*turn(-250);
+            turn(-250);
             resetEncoders();
-            drive(400);
-            marker.setPosition(0.5);*/
+            drive(450);
+            marker.setPosition(0.5);
         } else if(mineralPosition == 2){
             drive(200);
             resetEncoders();
@@ -62,10 +62,10 @@ public class OneMineralCrater extends LinearOpMode{
             resetEncoders();
             drive(600);
             resetEncoders();
-            /*turn(250);
+            turn(250);
             resetEncoders();
-            drive(400);
-            marker.setPosition(0.5);*/
+            drive(450);
+            marker.setPosition(0.5);
         }
 
     }

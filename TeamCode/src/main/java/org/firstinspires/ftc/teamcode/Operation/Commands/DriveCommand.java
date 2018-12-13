@@ -26,7 +26,8 @@ public class DriveCommand extends Command {
 
     @Override
     public void loop() {
-        drive.tankDrive(-dController.ly(),-dController.ry());
+        drive.arcadeDrive(-dController.lx(), -dController.ly());
+        //drive.tankDrive(-dController.ly(),-dController.ry());
     }
 
     @Override
