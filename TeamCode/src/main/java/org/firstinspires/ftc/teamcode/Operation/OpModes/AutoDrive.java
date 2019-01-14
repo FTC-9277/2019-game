@@ -19,6 +19,7 @@ public class AutoDrive extends ExplosiveAuto {
 
     @Override
     public void initAction() {
+
     }
 
     @Override
