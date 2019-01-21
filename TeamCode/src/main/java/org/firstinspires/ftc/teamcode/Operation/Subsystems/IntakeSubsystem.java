@@ -46,8 +46,24 @@ public class IntakeSubsystem extends Subsystem {
         intake.setPower(pow);
     }
 
-    public void setIntakeServos(Double leftPos, Double rightPos) {
-        leftIntake.setPosition(leftPos);
-        rightIntake.setPosition(rightPos);
+    public void drop() {
+        if (leftIntake.getPosition() < 0.95) {
+            leftIntake.setPosition(leftIntake.getPosition() + 0.1);
+        }
+
+        if (rightIntake.getPosition() > -0.95) {
+            rightIntake.setPosition(rightIntake.getPosition() - 0.1);
+        }
     }
+
+    public void pullUp() {
+        if (rightIntake.getPosition() < 0.95) {
+            rightIntake.setPosition(leftIntake.getPosition() + 0.1);
+        }
+
+        if (leftIntake.getPosition() > -0.95) {
+            leftIntake.setPosition(rightIntake.getPosition() - 0.1);
+        }
+    }
+
 }
