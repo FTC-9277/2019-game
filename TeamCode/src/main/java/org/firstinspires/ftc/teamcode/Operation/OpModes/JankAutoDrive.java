@@ -13,8 +13,7 @@ import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 
 @Autonomous(name = "Jank Auto")
 public class JankAutoDrive extends ExplosiveAuto {
-    DcMotor fLeft, fRight, bLeft, bRight;
-    MotorGroup left, right;
+
     ExplosivesRobot robot;
 
     @Override
@@ -29,8 +28,8 @@ public class JankAutoDrive extends ExplosiveAuto {
 
     @Override
     public void body() throws InterruptedException {
-        robot.drive.resetEncoders();
-        robot.drive.autoScaledDrive(-1000,0.5,0.89);
+        robot.driveSubsystem.resetEncoders();
+        robot.driveSubsystem.autoScaledDrive(-1000,0.5,0.89);
     }
 
     @Override

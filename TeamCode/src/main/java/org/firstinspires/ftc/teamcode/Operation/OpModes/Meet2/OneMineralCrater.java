@@ -29,35 +29,35 @@ public class OneMineralCrater extends ExplosiveAuto{
 
     @Override
     public void initAction() {
-        robot.climb.set(climb);
+        robot.climbSubsystem.set(climb);
     }
 
     @Override
     public void body() throws InterruptedException {
         int mineralPosition = sample.sample();
         Log.d("Robot", "Sampled: " + mineralPosition);
-        robot.climb.set(unhook);
+        robot.climbSubsystem.set(unhook);
 
         long time = System.currentTimeMillis();
         while(System.currentTimeMillis() - time < 10000 && opModeIsActive()){
             Thread.sleep(5);
         }
 
-        robot.drive.resetEncoders();
-        robot.drive.autoScaledDrive(200,0.5,0.89);
-        robot.climb.set(redeploy);
-        robot.drive.resetEncoders();
+        robot.driveSubsystem.resetEncoders();
+        robot.driveSubsystem.autoScaledDrive(200,0.5,0.89);
+        robot.climbSubsystem.set(redeploy);
+        robot.driveSubsystem.resetEncoders();
         Log.d("Robot", "Mineral Position Seen: " + mineralPosition);
         if(mineralPosition == 3){
-            robot.drive.autoScaledDrive(300, 0.5,0.89);
+            robot.driveSubsystem.autoScaledDrive(300, 0.5,0.89);
         } else if(mineralPosition == 1){
-            robot.drive.autoScaledTurn(45,0.6,0.89);
-            robot.drive.resetEncoders();
-            robot.drive.autoScaledDrive(400,0.5,0.89);
+            robot.driveSubsystem.autoScaledTurn(45,0.6,0.89);
+            robot.driveSubsystem.resetEncoders();
+            robot.driveSubsystem.autoScaledDrive(400,0.5,0.89);
         } else if(mineralPosition == 2){
-            robot.drive.autoScaledTurn(-45,0.6,0.89);
-            robot.drive.resetEncoders();
-            robot.drive.autoScaledDrive(400,0.5,0.89);
+            robot.driveSubsystem.autoScaledTurn(-45,0.6,0.89);
+            robot.driveSubsystem.resetEncoders();
+            robot.driveSubsystem.autoScaledDrive(400,0.5,0.89);
         }
 
     }
