@@ -43,15 +43,9 @@ public class IntakeCommand extends Command {
         }
 
         if(mController.dpadUp()){
-            intake.setIntakeServos(1.0, 0.0);
-        } else if(mController.dpadLeft()){
-            intake.setIntakeServos(0.75, 0.25);
+            intake.drop();
         } else if(mController.dpadDown()){
-            intake.setIntakeServos(0.25, 0.75);
-        } else if(mController.dpadRight()){
-            intake.setIntakeServos(0.0, 1.0);
-        } else {
-            intake.setIntakeServos(0.5, 0.5);
+            intake.pullUp();
         }
     }
 
