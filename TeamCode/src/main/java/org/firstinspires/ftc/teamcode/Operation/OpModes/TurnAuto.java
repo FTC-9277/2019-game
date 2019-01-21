@@ -20,9 +20,9 @@ public class TurnAuto extends ExplosiveAuto {
 
     @Override
     public void body() throws InterruptedException {
-        robot.drive.resetEncoders();
+        robot.driveSubsystem.resetEncoders();
         //robot.drive.PIDTurnToAngle(robot.drive.getOutput() + 700, 10000);
-        robot.drive.autoScaledTurn(285,0.3,0.89);
+        robot.driveSubsystem.autoScaledTurn(285,0.3,0.89);
     }
 
     @Override

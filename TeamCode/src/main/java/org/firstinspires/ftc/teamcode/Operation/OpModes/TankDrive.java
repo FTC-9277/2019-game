@@ -49,7 +49,7 @@ public class TankDrive extends OpMode {
         telemetry.addData("Front Right", fRight.getCurrentPosition());
         telemetry.addData("Back Right", bRight.getCurrentPosition());
         telemetry.addData("Back Left", bLeft.getCurrentPosition());
-        telemetry.addData("Yaw", robot.drive.getOutput());
+        telemetry.addData("Yaw", robot.driveSubsystem.getOutput());
         if(gamepad1.a){
             fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
