@@ -30,12 +30,12 @@ public class Leagues extends LinearOpMode {
 
     public void initHardware() {
         robot = new ExplosivesRobot(this);
-        leftSlide = hardwareMap.get(DcMotor.class, "leftSlide");
-        rightSlide = hardwareMap.get(DcMotor.class, "rightSlide");
+        //leftSlide = hardwareMap.get(DcMotor.class, "leftSlide");
+        //rightSlide = hardwareMap.get(DcMotor.class, "rightSlide");
         marker = hardwareMap.get(Servo.class, "marker");
-        left = hardwareMap.get(Servo.class, "leftIntake");
-        right = hardwareMap.get(Servo.class, "rightIntake");
-        in = hardwareMap.get(CRServo.class, "intake");
+        //left = hardwareMap.get(Servo.class, "leftIntake");
+        //right = hardwareMap.get(Servo.class, "rightIntake");
+        //in = hardwareMap.get(CRServo.class, "intake");
 
         player = new Player(hardwareMap);
     }
@@ -59,15 +59,24 @@ public class Leagues extends LinearOpMode {
         telemetry.update();
 
         player.play("hello");
-        leftSlide.setPower(-.5);
-        rightSlide.setPower(.5);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e){
 
+
+        /*for (int i = 0; i < 5; i++){
+            robot.intakeSubsystem.drop();
         }
-        leftSlide.setPower(0);
-        rightSlide.setPower(0);
+
+        pause(50);
+
+        for (int i = 0; i < 5; i++){
+            robot.intakeSubsystem.pullUp();
+        }
+
+        pause(50);*/
+
+        robot.intakeSubsystem.setSlider(-1.0);
+        pause(750);
+        robot.intakeSubsystem.setSlider(0.0);
+
 
         telemetry.addData("Section: ", "Connect");
         telemetry.update();
@@ -112,6 +121,12 @@ public class Leagues extends LinearOpMode {
 
         wait_for_button();
         player.play("end");
+
+        robot.intakeSubsystem.setSlider(1.0);
+        pause(500);
+        robot.intakeSubsystem.setSlider(0.0);
+
+        /*
         long start_time = System.currentTimeMillis();
         long total_time = 5000;
         double p;
@@ -121,17 +136,29 @@ public class Leagues extends LinearOpMode {
             telemetry.addData("Power: ", p);
             telemetry.update();
         }
-        robot.driveSubsystem.tankDrive(0,0);
+        robot.driveSubsystem.tankDrive(0,0);*/
     }
 
 
     public void wait_for_button(){
         try {
-            Thread.sleep(500);
+            Thread.sleep(750);
         } catch (InterruptedException e){
 
         }
-        while(!gamepad1.right_bumper && opModeIsActive()){
+        while(!button() && opModeIsActive()){
+
+        }
+    }
+
+    public boolean button(){
+        return gamepad1.right_trigger > .75;
+    }
+
+    public void pause(long t){
+        try {
+            Thread.sleep(t);
+        } catch (InterruptedException e){
 
         }
     }

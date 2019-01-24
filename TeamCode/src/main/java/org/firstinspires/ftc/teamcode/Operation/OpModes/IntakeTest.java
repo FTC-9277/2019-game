@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Operation.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Operation.Commands.ShooterCommand;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 
-@TeleOp(name = "Intake Test")
+//@TeleOp(name = "Intake Test")
 public class IntakeTest extends ExplosiveTele {
 
     IntakeCommand intake;
