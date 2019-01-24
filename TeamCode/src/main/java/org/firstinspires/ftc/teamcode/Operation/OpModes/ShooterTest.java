@@ -5,19 +5,19 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveTele;
-import org.firstinspires.ftc.teamcode.Operation.Commands.ShooterCommand;
+import org.firstinspires.ftc.teamcode.Operation.Commands.ManipulateCommand;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 
 @TeleOp(name = "Shooter Test")
 public class ShooterTest extends ExplosiveTele {
 
-    ShooterCommand shooter;
+    ManipulateCommand manipulate;
     ExplosivesRobot robot;
 
     @Override
     public void initHardware() {
         robot = new ExplosivesRobot(this);
-        shooter = new ShooterCommand(robot.shooterSubsystem, this);
+        manipulate = new ManipulateCommand(robot.intakeSubsystem, robot.climbSubsystem, robot.shooterSubsystem, this);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ShooterTest extends ExplosiveTele {
 
     @Override
     public void firstLoop() {
-        shooter.enable();
+         manipulate.enable();
     }
 
     @Override

@@ -6,15 +6,15 @@ package org.firstinspires.ftc.teamcode.FtcExplosivesPackage;
 
 public abstract class Command implements Runnable {
     Thread t;
-    Subsystem subsystem;
+    Subsystem[] subsystems;
     private boolean isRunning = false, cancel = false;
     ExplosiveTele opMode;
     TelemetryLog cmdErrorLog;
 
-    public Command(ExplosiveTele opMode, Subsystem subsystem){
+    public Command(ExplosiveTele opMode, Subsystem[] subsystems){
         this.t = new Thread(this);
         this.opMode = opMode;
-        this.subsystem = subsystem;
+        this.subsystems = subsystems;
         cmdErrorLog = new TelemetryLog(opMode);
     }
 
@@ -54,7 +54,9 @@ public abstract class Command implements Runnable {
         isRunning = true;
 
         init();
-        subsystem.enable();
+        for (Subsystem subsystem : subsystems) {
+            subsystem.enable();
+        }
 
         while(!isStarted() && !cancel){
             try {
@@ -78,10 +80,14 @@ public abstract class Command implements Runnable {
             loop();
         }
 
-        subsystem.disable();
+        for (Subsystem subsystem : subsystems) {
+            subsystem.disable();
+        }
 
         stop();
-        subsystem.stop();
+        for (Subsystem subsystem : subsystems) {
+            subsystem.stop();
+        }
         finish();
     }
 

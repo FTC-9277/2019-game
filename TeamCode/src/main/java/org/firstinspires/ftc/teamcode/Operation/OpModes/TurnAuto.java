@@ -29,4 +29,9 @@ public class TurnAuto extends ExplosiveAuto {
     public void exit() throws InterruptedException {
 
     }
+
+    @Override
+    protected void climberMaintain() {
+
+    }
 }

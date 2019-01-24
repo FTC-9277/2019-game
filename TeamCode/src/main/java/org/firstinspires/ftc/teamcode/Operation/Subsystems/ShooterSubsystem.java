@@ -33,4 +33,8 @@ public class ShooterSubsystem extends Subsystem {
         shooter.setPower(pow);
     }
 
+    public double getShooterPower() {
+        return shooter.getPower();
+    }
+
 }

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Operation.Commands;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Command;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Controller;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveTele;
+import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 
 public class DriveCommand extends Command {
@@ -10,7 +11,7 @@ public class DriveCommand extends Command {
     Controller dController;
 
     public DriveCommand(DriveSubsystem subsystem, ExplosiveTele opmode){
-        super(opmode, subsystem);
+        super(opmode, new Subsystem[] {subsystem});
         this.drive = subsystem;
         this.dController = opmode.dController;
     }
@@ -26,7 +27,7 @@ public class DriveCommand extends Command {
 
     @Override
     public void loop() {
-        drive.arcadeDrive(-dController.lx(), -dController.ly());
+        drive.tankDrive(-dController.lx(), -dController.ly());
         //drive.tankDrive(-dController.ly(),-dController.ry());
     }
 

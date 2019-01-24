@@ -25,27 +25,31 @@ public class CraterMarker extends ExplosiveAuto{
         sample = new Sampler(this);
         marker = hardwareMap.get(Servo.class, "marker");
         robot = new ExplosivesRobot(this);
+        robot.climbSubsystem.setEncoderTicks();
     }
 
     @Override
-    public void initAction() {
-        robot.climbSubsystem.set(climb);
+    public void initAction() {}
+
+    @Override
+    protected void climberMaintain() {
+        robot.climbSubsystem.maintain();
     }
 
     @Override
     public void body() throws InterruptedException {
         int mineralPosition = sample.sample();
+        //int mineralPosition = 3;
         Log.d("Robot", "Sampled: " + mineralPosition);
-        robot.climbSubsystem.set(unhook);
-
+/*
         long time = System.currentTimeMillis();
-        while(System.currentTimeMillis() - time < 10000 && opModeIsActive()){
-            Thread.sleep(5);
-        }
-
+        while(System.currentTimeMillis() - time < 2000 && opModeIsActive()){
+            Thread.sleep(1);
+        }*/
+        robot.climbSubsystem.ascend(1000);
         robot.driveSubsystem.resetEncoders();
         robot.driveSubsystem.autoScaledDrive(200,0.5,0.89);
-        robot.climbSubsystem.set(redeploy);
+        robot.climbSubsystem.descend(3);
         robot.driveSubsystem.resetEncoders();
         Log.d("Robot", "Mineral Position Seen: " + mineralPosition);
         if(mineralPosition == 3){

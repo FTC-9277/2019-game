@@ -5,30 +5,28 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveTele;
-import org.firstinspires.ftc.teamcode.Operation.Commands.IntakeCommand;
-import org.firstinspires.ftc.teamcode.Operation.Commands.ShooterCommand;
+import org.firstinspires.ftc.teamcode.Operation.Commands.ManipulateCommand;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 
 //@TeleOp(name = "Intake Test")
 public class IntakeTest extends ExplosiveTele {
 
-    IntakeCommand intake;
+    ManipulateCommand manipulate;
     ExplosivesRobot robot;
 
     @Override
     public void initHardware() {
         robot = new ExplosivesRobot(this);
-        intake = new IntakeCommand(robot.intakeSubsystem, this);
+        manipulate = new ManipulateCommand(robot.intakeSubsystem, robot.climbSubsystem, robot.shooterSubsystem, this);
     }
 
     @Override
     public void initAction() {
-
     }
 
     @Override
     public void firstLoop() {
-        intake.enable();
+        manipulate.enable();
     }
 
     @Override

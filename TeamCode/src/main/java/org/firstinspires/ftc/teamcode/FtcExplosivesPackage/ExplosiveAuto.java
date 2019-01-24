@@ -39,4 +39,15 @@ public abstract class ExplosiveAuto extends LinearOpMode {
 
         exit();
     }
+
+    protected abstract void climberMaintain();
+
+    @Override
+    protected void handleLoop() {
+
+        climberMaintain();
+
+        synchronized (this){ this.notifyAll(); }
+    }
+
 }

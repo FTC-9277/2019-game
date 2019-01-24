@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 
 public class IntakeSubsystem extends Subsystem {
     DcMotor leftSlide, rightSlide;
-    Servo leftIntake, rightIntake;
-    CRServo intake;
+    Servo indexer;
+    CRServo intake, leftIntake, rightIntake;
 
-    public IntakeSubsystem(DcMotor leftSlide, DcMotor rightSlide, CRServo intake, Servo leftIntake, Servo rightIntake, OpMode opmode){
+    public IntakeSubsystem(DcMotor leftSlide, DcMotor rightSlide, CRServo intake, CRServo leftIntake, CRServo rightIntake, Servo indexer, OpMode opmode){
         super(opmode);
+        this.indexer = indexer;
         this.intake = intake;
         this.leftSlide = leftSlide;
         this.rightSlide = rightSlide;
@@ -38,8 +39,8 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public void setSlider(Double pow) {
-        leftSlide.setPower(pow);
-        rightSlide.setPower(-pow);
+        leftSlide.setPower(-pow);
+        rightSlide.setPower(pow);
     }
 
     public void setIntake(Double pow) {
@@ -47,23 +48,19 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public void drop() {
-        if (leftIntake.getPosition() < 0.95) {
-            leftIntake.setPosition(leftIntake.getPosition() + 0.1);
-        }
-
-        if (rightIntake.getPosition() > -0.95) {
-            rightIntake.setPosition(rightIntake.getPosition() - 0.1);
-        }
+        leftIntake.setPower(0.5);
     }
 
     public void pullUp() {
-        if (rightIntake.getPosition() < 0.95) {
-            rightIntake.setPosition(leftIntake.getPosition() + 0.1);
-        }
+        rightIntake.setPower(0.5);
+    }
 
-        if (leftIntake.getPosition() > -0.95) {
-            leftIntake.setPosition(rightIntake.getPosition() - 0.1);
-        }
+    public void indexerUp() {
+        indexer.setPosition(1);
+    }
+
+    public void indexerDown() {
+        indexer.setPosition(0);
     }
 
 }

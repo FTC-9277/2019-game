@@ -7,10 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Controller;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveTele;
-import org.firstinspires.ftc.teamcode.Operation.Commands.ClimberCommand;
 import org.firstinspires.ftc.teamcode.Operation.Commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.Operation.Commands.IntakeCommand;
-import org.firstinspires.ftc.teamcode.Operation.Commands.ShooterCommand;
+import org.firstinspires.ftc.teamcode.Operation.Commands.ManipulateCommand;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.ClimbSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
@@ -19,17 +17,13 @@ import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 public class FullTele extends ExplosiveTele {
     ExplosivesRobot robot;
     DriveCommand driveCommand;
-    ClimberCommand climberCommand;
-    IntakeCommand intakeCommand;
-    ShooterCommand shooterCommand;
+    ManipulateCommand manipulateCommand;
 
     @Override
     public void initHardware() {
         robot = new ExplosivesRobot(this);
         driveCommand = new DriveCommand(robot.driveSubsystem, this);
-        climberCommand = new ClimberCommand(robot.climbSubsystem, this);
-        intakeCommand = new IntakeCommand(robot.intakeSubsystem, this);
-        shooterCommand = new ShooterCommand(robot.shooterSubsystem, this);
+        manipulateCommand = new ManipulateCommand(robot.intakeSubsystem, robot.climbSubsystem, robot.shooterSubsystem, this);
     }
 
     @Override
@@ -40,9 +34,7 @@ public class FullTele extends ExplosiveTele {
     @Override
     public void firstLoop() {
         driveCommand.enable();
-        climberCommand.enable();
-        intakeCommand.enable();
-        shooterCommand.enable();
+        manipulateCommand.enable();
     }
 
     @Override

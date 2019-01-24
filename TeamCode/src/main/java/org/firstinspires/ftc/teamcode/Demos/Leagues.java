@@ -73,7 +73,7 @@ public class Leagues extends LinearOpMode {
 
         pause(50);*/
 
-        robot.intakeSubsystem.setSlider(-1.0);
+        robot.intakeSubsystem.setSlider(1.0);
         pause(750);
         robot.intakeSubsystem.setSlider(0.0);
 
@@ -122,7 +122,7 @@ public class Leagues extends LinearOpMode {
         wait_for_button();
         player.play("end");
 
-        robot.intakeSubsystem.setSlider(1.0);
+        robot.intakeSubsystem.setSlider(-1.0);
         pause(500);
         robot.intakeSubsystem.setSlider(0.0);
 

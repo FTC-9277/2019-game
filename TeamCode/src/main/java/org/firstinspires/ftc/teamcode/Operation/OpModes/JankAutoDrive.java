@@ -36,4 +36,9 @@ public class JankAutoDrive extends ExplosiveAuto {
     public void exit() throws InterruptedException {
 
     }
+
+    @Override
+    protected void climberMaintain() {
+
+    }
 }

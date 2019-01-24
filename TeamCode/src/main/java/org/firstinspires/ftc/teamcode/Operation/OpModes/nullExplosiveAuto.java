@@ -26,4 +26,9 @@ public class nullExplosiveAuto extends ExplosiveAuto {
     public void exit() throws InterruptedException {
 
     }
+
+    @Override
+    protected void climberMaintain() {
+
+    }
 }
