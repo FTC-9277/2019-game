@@ -21,13 +21,13 @@ public class Player {
         int id = hardwareMap.appContext.getResources().getIdentifier(name, "raw", hardwareMap.appContext.getPackageName());
         boolean b = SoundPlayer.getInstance().preload(hardwareMap.appContext, id);
 
-        if (b){
+        if (b) {
             sounds.put(name,id);
         }
         return b;
     }
 
-    public void play(String name){
+    public void play(String name) {
         if (sounds.get(name) == null){return;}
         int id = sounds.get(name);
         SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, id);

@@ -49,10 +49,10 @@ public class ClimbSubsystem extends Subsystem {
         }
     }
 
-    public void ascend(long time){
+    public void ascend(long millis){
         long s = System.currentTimeMillis();
         climber.setPower(0.5);
-        while(System.currentTimeMillis() < s+time) {
+        while(System.currentTimeMillis() < s+millis) {
         }
         climber.setPower(0);
     }
@@ -65,8 +65,8 @@ public class ClimbSubsystem extends Subsystem {
         climber.setPower(-0.5);
     }
 
-    public void descend(long time) {
-        while (System.currentTimeMillis()/1000 < time){
+    public void descend(long millis) {
+        while (System.currentTimeMillis()/1000 < millis){
             climber.setPower(-0.5);
         }
         climber.setPower(0);
