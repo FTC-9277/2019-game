@@ -21,7 +21,7 @@ public class Controller {
         TRIGGER
     }
 
-    public Controller(Gamepad gamepad){
+    public Controller(Gamepad gamepad) {
         this.gamepad = gamepad;
         this.joystickDeadzoneMagnitude = 0;
         this.triggerDeadzoneMagnitude = 0;

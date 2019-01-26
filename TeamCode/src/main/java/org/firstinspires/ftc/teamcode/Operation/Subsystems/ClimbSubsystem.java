@@ -66,7 +66,8 @@ public class ClimbSubsystem extends Subsystem {
     }
 
     public void descend(long millis) {
-        while (System.currentTimeMillis()/1000 < millis){
+        long s = System.currentTimeMillis();
+        while (System.currentTimeMillis() < s+millis){
             climber.setPower(-0.5);
         }
         climber.setPower(0);

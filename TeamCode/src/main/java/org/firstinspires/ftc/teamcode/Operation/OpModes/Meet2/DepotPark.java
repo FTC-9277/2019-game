@@ -49,7 +49,7 @@ public class DepotPark extends ExplosiveAuto{
         robot.climbSubsystem.ascend(1000);
         robot.driveSubsystem.resetEncoders();
         robot.driveSubsystem.autoScaledDrive(200,0.5,DRIVE_SCALAR);
-        robot.climbSubsystem.descend(3);
+        robot.climbSubsystem.descend(3000);
         robot.driveSubsystem.resetEncoders();
         Log.d("Robot", "Mineral Position Seen: " + mineralPosition);
         if(mineralPosition == 3){

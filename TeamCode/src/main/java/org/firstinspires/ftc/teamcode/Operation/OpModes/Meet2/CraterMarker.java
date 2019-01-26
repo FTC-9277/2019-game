@@ -42,14 +42,14 @@ public class CraterMarker extends ExplosiveAuto{
         //int mineralPosition = 3;
         Log.d("Robot", "Sampled: " + mineralPosition);
 /*
-        long time = System.currentTimeMillis();
+        long time = System.currentTimeMillis
         while(System.currentTimeMillis() - time < 2000 && opModeIsActive()){
             Thread.sleep(1);
         }*/
         robot.climbSubsystem.ascend(1000);
         robot.driveSubsystem.resetEncoders();
         robot.driveSubsystem.autoScaledDrive(200,0.5,0.89);
-        robot.climbSubsystem.descend(3);
+        robot.climbSubsystem.descend(3000);
         robot.driveSubsystem.resetEncoders();
         Log.d("Robot", "Mineral Position Seen: " + mineralPosition);
         if(mineralPosition == 3){
