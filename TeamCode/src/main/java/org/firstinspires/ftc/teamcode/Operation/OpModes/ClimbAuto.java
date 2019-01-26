@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveAuto;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.ClimbSubsystem;
 
-@Autonomous(name = "Climb Auto")
+@Autonomous(name = "New Climb Auto")
 public class ClimbAuto extends ExplosiveAuto {
 
     ClimbSubsystem climb;

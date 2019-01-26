@@ -102,9 +102,9 @@ public class ManipulateCommand extends Command {
         if(mController.b()) {
             if (shooterLocked == false) { //If this is the first loop with the button pressed
                 shooterLocked = true;
-                if(shooter.getShooterPower() < 0.5) { //If the shooter is already stopped
+                if(shooter.getShooterPower() < -0.5) { //If the shooter is already stopped
                     //Start the shooter
-                    shooter.setShooter(1.0);
+                    shooter.setShooter(-1.0);
                 } else {
                     //Stop the shooter
                     shooter.setShooter(0.0);

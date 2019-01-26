@@ -38,6 +38,14 @@ public class IntakeSubsystem extends Subsystem {
 
     }
 
+    public void setLeftSlide(Double pow) {
+        leftSlide.setPower(pow);
+    }
+
+    public void setRightSlide(Double pow) {
+        rightSlide.setPower(pow);
+    }
+
     public void setSlider(Double pow) {
         leftSlide.setPower(-pow);
         rightSlide.setPower(pow);
@@ -49,10 +57,12 @@ public class IntakeSubsystem extends Subsystem {
 
     public void drop() {
         leftIntake.setPower(0.5);
+        rightIntake.setPower(0.5);
     }
 
     public void pullUp() {
         rightIntake.setPower(0.5);
+        leftSlide.setPower(0.5);
     }
 
     public void indexerUp() {
