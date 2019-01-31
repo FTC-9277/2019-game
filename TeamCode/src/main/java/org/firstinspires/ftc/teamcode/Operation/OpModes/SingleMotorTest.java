@@ -27,6 +27,10 @@ public class SingleMotorTest extends OpMode {
             motor.setPower(gamepad1.left_stick_y);
         }
 
+        if(Math.abs(gamepad1.left_stick_y) > 0.1 && gamepad1.dpad_up == false && gamepad1.dpad_down == false) {
+            motor.setPower(0.0);
+        }
+
 
     }
 }

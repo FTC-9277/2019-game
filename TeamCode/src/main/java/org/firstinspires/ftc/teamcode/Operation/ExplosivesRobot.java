@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosivePIDEnabledHa
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.MotorGroup;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.MotorGroupPIDSource;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.ClimbSubsystem;
+import org.firstinspires.ftc.teamcode.Operation.Subsystems.DiverterSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.ShooterSubsystem;
@@ -17,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Operation.Subsystems.ShooterSubsystem;
 public class ExplosivesRobot {
     DcMotor fLeft, bLeft, fRight, bRight, leftSlide, rightSlide, shooter, climber;
     CRServo intake, leftIntake, rightIntake;
-    Servo indexer;
+    Servo indexer, diverter;
     ExplosivePIDEnabledHardware gyro;
     OpMode opMode;
     MotorGroup a,b;
@@ -26,29 +27,33 @@ public class ExplosivesRobot {
     public ClimbSubsystem climbSubsystem;
     public IntakeSubsystem intakeSubsystem;
     public ShooterSubsystem shooterSubsystem;
+    public DiverterSubsystem diverterSubsystem;
 
     public ExplosivesRobot(OpMode opmode) {
         this.opMode = opmode;
 
         //Drive
-        fLeft = opmode.hardwareMap.get(DcMotor.class, "fLeft");
-        bLeft = opmode.hardwareMap.get(DcMotor.class, "bLeft");
-        bRight = opmode.hardwareMap.get(DcMotor.class, "bRight");
-        fRight = opmode.hardwareMap.get(DcMotor.class, "fRight");
+        fLeft = opmode.hardwareMap.dcMotor.get("fLeft");
+        bLeft = opmode.hardwareMap.dcMotor.get("bLeft");
+        bRight = opmode.hardwareMap.dcMotor.get("bRight");
+        fRight = opmode.hardwareMap.dcMotor.get("fRight");
 
         //Climber
-        climber = opmode.hardwareMap.get(DcMotor.class, "climber");
+        climber = opmode.hardwareMap.dcMotor.get("climber");
 
         //Intake
-        leftSlide = opmode.hardwareMap.get(DcMotor.class, "leftSlide");
-        rightSlide = opmode.hardwareMap.get(DcMotor.class, "rightSlide");
-        intake = opmode.hardwareMap.get(CRServo.class, "intake");
-        leftIntake = opmode.hardwareMap.get(CRServo.class, "left");
-        rightIntake = opmode.hardwareMap.get(CRServo.class, "right");
-        indexer = opmode.hardwareMap.get(Servo.class, "indexer");
+        leftSlide = opmode.hardwareMap.dcMotor.get("leftSlide");
+        rightSlide = opmode.hardwareMap.dcMotor.get("rightSlide");
+        intake = opmode.hardwareMap.crservo.get("intake");
+        leftIntake = opmode.hardwareMap.crservo.get("left");
+        rightIntake = opmode.hardwareMap.crservo.get("right");
+        indexer = opmode.hardwareMap.servo.get("indexer");
 
         //Shooter
-        shooter = opmode.hardwareMap.get(DcMotor.class, "shooter");
+        shooter = opmode.hardwareMap.dcMotor.get("shooter");
+
+        //Diverter
+        diverter = opmode.hardwareMap.servo.get("diverter");
 
         a = new MotorGroup(opmode,fLeft, bLeft);
         b = new MotorGroup(opmode, fRight, bRight);
@@ -58,6 +63,7 @@ public class ExplosivesRobot {
         climbSubsystem = new ClimbSubsystem(climber, opmode);
         intakeSubsystem = new IntakeSubsystem(leftSlide, rightSlide, intake, leftIntake, rightIntake, indexer, opmode);
         shooterSubsystem = new ShooterSubsystem(shooter, opmode);
+        diverterSubsystem = new DiverterSubsystem(diverter, opmode);
 
     }
 }

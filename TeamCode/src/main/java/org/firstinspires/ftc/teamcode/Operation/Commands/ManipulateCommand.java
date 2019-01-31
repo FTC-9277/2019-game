@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Controller;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveTele;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.ClimbSubsystem;
+import org.firstinspires.ftc.teamcode.Operation.Subsystems.DiverterSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.ShooterSubsystem;
@@ -14,12 +15,14 @@ public class ManipulateCommand extends Command {
     IntakeSubsystem intake;
     ClimbSubsystem climb;
     ShooterSubsystem shooter;
+    DiverterSubsystem diverter;
 
     Controller dController, mController;
 
-    public ManipulateCommand(IntakeSubsystem intake, ClimbSubsystem climb, ShooterSubsystem shooter, ExplosiveTele opmode){
+    public ManipulateCommand(IntakeSubsystem intake, ClimbSubsystem climb, ShooterSubsystem shooter, DiverterSubsystem diverter, ExplosiveTele opmode){
         super(opmode, new Subsystem[] {intake, climb, shooter});
         this.intake = intake;
+        this.diverter = diverter;
         this.climb = climb;
         this.shooter = shooter;
         this.dController = opmode.dController;
@@ -113,6 +116,12 @@ public class ManipulateCommand extends Command {
         } else {
             //The button is not being pressed, unlock it
             shooterLocked = false;
+        }
+
+        if(dController.dpadUp()) {
+            diverter.setDiverter(0.0);
+        } else if (dController.dpadDown()) {
+            diverter.setDiverter(0.0);
         }
 
     }
