@@ -30,7 +30,7 @@ public class ShooterSubsystem extends Subsystem {
     }
 
     public void setShooter(Double pow) {
-        shooter.setPower(pow);
+        shooter.setPower(-pow);
     }
 
     public double getShooterPower() {

@@ -23,7 +23,7 @@ public class FullTele extends ExplosiveTele {
     public void initHardware() {
         robot = new ExplosivesRobot(this);
         driveCommand = new DriveCommand(robot.driveSubsystem, this);
-        manipulateCommand = new ManipulateCommand(robot.intakeSubsystem, robot.climbSubsystem, robot.shooterSubsystem, this);
+        manipulateCommand = new ManipulateCommand(robot.intakeSubsystem, robot.climbSubsystem, robot.shooterSubsystem, robot.diverterSubsystem, this);
     }
 
     @Override

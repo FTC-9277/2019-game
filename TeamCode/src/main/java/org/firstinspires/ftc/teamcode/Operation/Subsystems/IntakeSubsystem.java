@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 
 public class IntakeSubsystem extends Subsystem {
     DcMotor leftSlide, rightSlide;
-    Servo indexer;
-    CRServo intake, leftIntake, rightIntake;
+    CRServo intake, leftIntake, rightIntake, indexer;
+    OpMode opmode;
 
-    public IntakeSubsystem(DcMotor leftSlide, DcMotor rightSlide, CRServo intake, CRServo leftIntake, CRServo rightIntake, Servo indexer, OpMode opmode){
+    public IntakeSubsystem(DcMotor leftSlide, DcMotor rightSlide, CRServo intake, CRServo leftIntake, CRServo rightIntake, CRServo indexer, OpMode opmode){
         super(opmode);
+        this.opmode = opmode;
         this.indexer = indexer;
         this.intake = intake;
         this.leftSlide = leftSlide;
@@ -52,25 +53,38 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public void setIntake(Double pow) {
+        opmode.telemetry.addData("Power", intake.getPower());
         intake.setPower(pow);
     }
 
     public void drop() {
-        leftIntake.setPower(0.5);
+        leftIntake.setPower(-0.5);
         rightIntake.setPower(0.5);
     }
 
     public void pullUp() {
-        rightIntake.setPower(0.5);
-        leftSlide.setPower(0.5);
+        rightIntake.setPower(-0.5);
+        leftIntake.setPower(0.5);
+    }
+
+    public void stopIntake() {
+        rightIntake.setPower(0.0);
+        leftIntake.setPower(0.0);
     }
 
     public void indexerUp() {
-        indexer.setPosition(1);
+        opmode.telemetry.addData("Pos", indexer.getPower());
+        indexer.setPower(1);
     }
 
     public void indexerDown() {
-        indexer.setPosition(0);
+        opmode.telemetry.addData("Pos", indexer.getPower());
+        indexer.setPower(0);
+    }
+
+    public void setIndexer(Double pow) {
+        indexer.setPower(pow);
+        opmode.telemetry.addData("Pow", indexer.getPower());
     }
 
 }

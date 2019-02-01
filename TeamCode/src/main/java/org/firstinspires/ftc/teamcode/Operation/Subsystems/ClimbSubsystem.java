@@ -73,4 +73,8 @@ public class ClimbSubsystem extends Subsystem {
         climber.setPower(0);
     }
 
+    public void stopClimbing() {
+        climber.setPower(0.0);
+    }
+
 }

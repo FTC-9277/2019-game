@@ -17,8 +17,8 @@ import org.firstinspires.ftc.teamcode.Operation.Subsystems.ShooterSubsystem;
 
 public class ExplosivesRobot {
     DcMotor fLeft, bLeft, fRight, bRight, leftSlide, rightSlide, shooter, climber;
-    CRServo intake, leftIntake, rightIntake;
-    Servo indexer, diverter;
+    CRServo intake, leftIntake, rightIntake, indexer;
+    Servo diverter;
     ExplosivePIDEnabledHardware gyro;
     OpMode opMode;
     MotorGroup a,b;
@@ -47,7 +47,7 @@ public class ExplosivesRobot {
         intake = opmode.hardwareMap.crservo.get("intake");
         leftIntake = opmode.hardwareMap.crservo.get("left");
         rightIntake = opmode.hardwareMap.crservo.get("right");
-        indexer = opmode.hardwareMap.servo.get("indexer");
+        indexer = opmode.hardwareMap.crservo.get("indexer");
 
         //Shooter
         shooter = opmode.hardwareMap.dcMotor.get("shooter");

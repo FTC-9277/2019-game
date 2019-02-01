@@ -46,26 +46,29 @@ public class ManipulateCommand extends Command {
     public void loop() {
 
         //Climber
+//        if(dController.b()) {
+//            if(maintainLocked == false) {
+//                maintainLocked = true;
+//                if(isMaintaning) {
+//                    isMaintaning = false;
+//                } else {
+//                    isMaintaning = true;
+//                }
+//            }
+//            climb.maintain();
+//        } else {
+//            maintainLocked = false;
+//        }
         if(dController.b()) {
-            if(maintainLocked == false) {
-                maintainLocked = true;
-                if(isMaintaning) {
-                    isMaintaning = false;
-                } else {
-                    isMaintaning = true;
-                }
-            }
             climb.maintain();
-        } else {
-            maintainLocked = false;
-        }
-
-        if(dController.a()) {
+        } else if(dController.a()) {
             climb.descend();
             isMaintaning = false;
         } else if(dController.y()) {
             climb.ascend();
             isMaintaning = false;
+        } else {
+            climb.stopClimbing();
         }
 
         if(isMaintaning) {
@@ -76,52 +79,65 @@ public class ManipulateCommand extends Command {
         if (mController.leftTrigger() > 0.75) {
             intake.setSlider(1.0);
         } else if (mController.rightTrigger() > 0.75) {
-            intake.setSlider(-1.0);
+            intake.setSlider(-0.75);
         } else {
             intake.setSlider(0.0);
         }
 
+//        intake.setIntake(mController.ry());
+
+        if(mController.rightBumper()) {
+            intake.setIntake(0.9);
+        }
+
+        /*
         if(dController.rightBumper() || mController.rightBumper()) {
-            intake.setIntake(1.0);
+            intake.setIntake(0.9);
         } else {
             intake.setIntake(0.0);
-        }
+        }*/
 
         if(mController.dpadUp()){
             intake.pullUp();
         } else if(mController.dpadDown()){
             intake.drop();
+        } else {
+            intake.stopIntake();
         }
 
         if(Math.abs(mController.ly()) > 0.1) {
-            if(mController.ly() > 0) {
-                intake.indexerUp();
-            } else {
-                intake.indexerDown();
-            }
+            intake.setIndexer(mController.ly());
         }
 
         //Shooter
+//        if(mController.b()) {
+//            if (shooterLocked == false) { //If this is the first loop with the button pressed
+//                shooterLocked = true;
+//                if(shooter.getShooterPower() < -0.5) { //If the shooter is already stopped
+//                    //Start the shooter
+//                    shooter.setShooter(-1.0);
+//                } else {
+//                    //Stop the shooter
+//                    shooter.setShooter(0.0);
+//                }
+//            }
+//        } else {
+//            //The button is not being pressed, unlock it
+//            shooterLocked = false;
+//        }
+
         if(mController.b()) {
-            if (shooterLocked == false) { //If this is the first loop with the button pressed
-                shooterLocked = true;
-                if(shooter.getShooterPower() < -0.5) { //If the shooter is already stopped
-                    //Start the shooter
-                    shooter.setShooter(-1.0);
-                } else {
-                    //Stop the shooter
-                    shooter.setShooter(0.0);
-                }
-            }
+            shooter.setShooter(1.0);
         } else {
-            //The button is not being pressed, unlock it
-            shooterLocked = false;
+            shooter.setShooter(0.0);
         }
 
         if(dController.dpadUp()) {
             diverter.setDiverter(0.0);
         } else if (dController.dpadDown()) {
-            diverter.setDiverter(0.0);
+            diverter.setDiverter(1.0);
+        } else if(dController.dpadLeft() || dController.dpadRight()) {
+            diverter.setDiverter(0.5);
         }
 
     }
