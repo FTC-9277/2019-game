@@ -70,9 +70,9 @@ public class IntakeTest extends ExplosiveTele {
         }
 
         if(mController.leftTrigger() > 0.75) {
-            intakeSubsystem.indexerUp();
+            intakeSubsystem.setIndexer(0.9);
         } else if (mController.rightTrigger() > 0.75) {
-            intakeSubsystem.indexerDown();
+            intakeSubsystem.setIndexer(0.9);
         }
 
     }

@@ -29,6 +29,8 @@ public class FullTele extends ExplosiveTele {
     @Override
     public void initAction() {
         dController.setJoystickDeadzone(Controller.DeadzoneType.CIRCULAR, 0.1);
+        mController.setJoystickDeadzone(Controller.DeadzoneType.CIRCULAR, 0.1);
+        manipulateCommand.setDiverter(0.5);
     }
 
     @Override

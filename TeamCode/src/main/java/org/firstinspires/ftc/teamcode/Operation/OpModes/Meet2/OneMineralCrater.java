@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.ClimbSubsystem;
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
 
-@Autonomous(name = "Crater Only")
+//@Autonomous(name = "Crater Only")
 public class OneMineralCrater extends ExplosiveAuto{
     Sampler sample;
     ExplosivesRobot robot;

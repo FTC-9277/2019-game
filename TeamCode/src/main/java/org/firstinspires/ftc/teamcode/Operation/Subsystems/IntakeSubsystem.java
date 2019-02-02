@@ -72,19 +72,13 @@ public class IntakeSubsystem extends Subsystem {
         leftIntake.setPower(0.0);
     }
 
-    public void indexerUp() {
-        opmode.telemetry.addData("Pos", indexer.getPower());
-        indexer.setPower(1);
-    }
+    int upCount = 0;
+    int downCount = 0;
 
-    public void indexerDown() {
-        opmode.telemetry.addData("Pos", indexer.getPower());
-        indexer.setPower(0);
-    }
+    final int COUNT_LIMIT = 1000;
 
     public void setIndexer(Double pow) {
         indexer.setPower(pow);
-        opmode.telemetry.addData("Pow", indexer.getPower());
     }
 
 }

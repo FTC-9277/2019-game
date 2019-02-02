@@ -84,11 +84,11 @@ public class ManipulateCommand extends Command {
             intake.setSlider(0.0);
         }
 
-//        intake.setIntake(mController.ry());
+        intake.setIntake(mController.ry()*0.9);
 
-        if(mController.rightBumper()) {
-            intake.setIntake(0.9);
-        }
+//        if(mController.rightBumper()) {
+//            intake.setIntake(0.9);
+//        }
 
         /*
         if(dController.rightBumper() || mController.rightBumper()) {
@@ -106,7 +106,7 @@ public class ManipulateCommand extends Command {
         }
 
         if(Math.abs(mController.ly()) > 0.1) {
-            intake.setIndexer(mController.ly());
+            intake.setIndexer(mController.ly()*0.9);
         }
 
         //Shooter
@@ -140,6 +140,10 @@ public class ManipulateCommand extends Command {
             diverter.setDiverter(0.5);
         }
 
+    }
+
+    public void setDiverter(Double pos) {
+        diverter.setDiverter(pos);
     }
 
     @Override

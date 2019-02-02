@@ -29,7 +29,9 @@ public class CraterMarker extends ExplosiveAuto{
     }
 
     @Override
-    public void initAction() {}
+    public void initAction() {
+        robot.diverterSubsystem.setDiverter(1.0);
+    }
 
     @Override
     protected void climberMaintain() {
