@@ -20,4 +20,7 @@ android {
             path 'src/main/jni/CMakeLists.txt'
         }
     }
+    defaultConfig.ndk{
+        moduleName "native-lib"
+    }
 }

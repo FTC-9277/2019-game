@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.configuration.annotations.MotorType;
 
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveBNO055;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosivePIDEnabledHardware;
@@ -40,6 +41,8 @@ public class ExplosivesRobot {
 
         //Climber
         climber = opmode.hardwareMap.dcMotor.get("climber");
+        climber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        climber.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Intake
         leftSlide = opmode.hardwareMap.dcMotor.get("leftSlide");

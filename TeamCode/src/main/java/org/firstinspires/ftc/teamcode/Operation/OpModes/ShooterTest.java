@@ -1,80 +1,58 @@
 package org.firstinspires.ftc.teamcode.Operation.OpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import android.graphics.Path;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveTele;
-import org.firstinspires.ftc.teamcode.Operation.Commands.ManipulateCommand;
-import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
-import org.firstinspires.ftc.teamcode.Operation.Subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.Operation.Subsystems.ShooterSubsystem;
 
 @TeleOp(name = "Shooter Test")
 public class ShooterTest extends OpMode {
-
-    ShooterSubsystem shooterSubsystem;
     DcMotor shooter;
-
-//    @Override
-    public void initHardware() {
-
-        shooter = hardwareMap.get(DcMotor.class, "shooter");
-
-//        shooterSubsystem = new ShooterSubsystem(shooter, this);
-    }
-
-//    @Override
-    public void initAction() {
-    }
-
-//    @Override
-    public void firstLoop() {
-        shooterSubsystem.enable();
+    @Override
+    public void init() {
+        shooter = hardwareMap.dcMotor.get("shooter");
     }
 
     boolean shooterLocked = false;
-
-//    @Override
-    public void bodyLoop() {
-        //Shooter
-//        if(mController.b()) {
-//            if (shooterLocked == false) { //If this is the first loop with the button pressed
-//                shooterLocked = true;
-//                if(shooterSubsystem.getShooterPower() < 0.5) { //If the shooter is already stopped
-//                    //Start the shooter
-//                    shooterSubsystem.setShooter(1.0);
-//                } else {
-//                    //Stop the shooter
-//                    shooterSubsystem.setShooter(0.0);
-//                }
-//            }
-//        } else {
-//            //The button is not being pressed, unlock it
-//            shooterLocked = false;
-//        }
-//
-//        if(Math.abs(mController.ly()) > 0.1) {
-//            shooterSubsystem.setShooter(Math.abs(mController.ly()));
-//        }
-
-    }
-
-//    @Override
-    public void exit() {
-//
-    }
-
-    @Override
-    public void init() {
-
-    }
+    double power = 0.5;
 
     @Override
     public void loop() {
+//
+//        if (Math.abs(gamepad1.left_stick_y) < 0.1) {
+//
+//            if (gamepad1.b == true) {
+//                if (shooterLocked == false) { //If this is the first loop with the button pressed
+//                    shooterLocked = true;
+//                    if (shooter.getPower() > -0.5) { //If the shooter is already stopped
+//                        //Start the shooter
+//                        shooter.setPower(-power);
+//                    } else {
+//                        //Stop the shooter
+//                        shooter.setPower(0.0);
+//                    }
+//                }
+//            } else {
+//                //The button is not being pressed, unlock it
+//                shooterLocked = false;
+//            }
+//
+//            if (gamepad1.y) {
+//                power = 1.0;
+//            }
+//
+//            if (gamepad1.x) {
+//                power = 0.75;
+//            }
+//
+//            if (gamepad1.a) {
+//                power = 0.5;
+//            }
+//
+//        } else {
+            shooter.setPower(gamepad1.left_stick_y);
+//        }
 
     }
 }

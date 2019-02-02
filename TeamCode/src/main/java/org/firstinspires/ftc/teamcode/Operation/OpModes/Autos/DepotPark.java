@@ -1,39 +1,37 @@
-package org.firstinspires.ftc.teamcode.Operation.OpModes.Meet2;
+package org.firstinspires.ftc.teamcode.Operation.OpModes.Autos;
 
 import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveAuto;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
-import org.firstinspires.ftc.teamcode.Operation.Subsystems.ClimbSubsystem;
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
 
-//@Autonomous(name = "Depot Park")
+@Autonomous(name = "LC Depot Park")
 public class DepotPark extends ExplosiveAuto{
     Sampler sample;
     ExplosivesRobot robot;
     Servo marker;
-    //double currentLeft = 0, currentRight = 0;
-    //double climb = 0.23, unhook = 0.975, redeploy = 0.3;
-    final double TURN_SCALAR = 1.35;
-    final double DRIVE_SCALAR = 0.86;
+    final double TURN_SCALAR = 1;
+    final double DRIVE_SCALAR = 1;
 
     @Override
     public void initHardware() {
         sample = new Sampler(this);
         marker = hardwareMap.get(Servo.class, "marker");
         robot = new ExplosivesRobot(this);
-        robot.climbSubsystem.setEncoderTicks();
+//        robot.climbSubsystem.setEncoderTicks();
     }
 
     @Override
-    public void initAction() {}
+    public void initAction() {
+        robot.diverterSubsystem.setDiverter(1.0);
+    }
 
     @Override
     protected void climberMaintain() {
-        robot.climbSubsystem.maintain();
+//        robot.climbSubsystem.maintain();
     }
 
     @Override
@@ -46,7 +44,7 @@ public class DepotPark extends ExplosiveAuto{
         while(System.currentTimeMillis() - time < 2000 && opModeIsActive()){
             Thread.sleep(1);
         }*/
-        robot.climbSubsystem.ascend(1000);
+        robot.climbSubsystem.ascend(3000);
         robot.driveSubsystem.resetEncoders();
         robot.driveSubsystem.autoScaledDrive(200,0.5,DRIVE_SCALAR);
         robot.climbSubsystem.descend(3000);

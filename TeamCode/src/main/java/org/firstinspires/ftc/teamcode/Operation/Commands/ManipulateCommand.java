@@ -38,10 +38,6 @@ public class ManipulateCommand extends Command {
 
     }
 
-    private boolean isMaintaning = false;
-    private boolean maintainLocked = false;
-    private boolean shooterLocked = false;
-
     @Override
     public void loop() {
 
@@ -59,20 +55,12 @@ public class ManipulateCommand extends Command {
 //        } else {
 //            maintainLocked = false;
 //        }
-        if(dController.b()) {
-            climb.maintain();
-        } else if(dController.a()) {
+        if(dController.a()) {
             climb.descend();
-            isMaintaning = false;
         } else if(dController.y()) {
             climb.ascend();
-            isMaintaning = false;
         } else {
             climb.stopClimbing();
-        }
-
-        if(isMaintaning) {
-            climb.maintain();
         }
 
         //Intake
@@ -106,7 +94,9 @@ public class ManipulateCommand extends Command {
         }
 
         if(Math.abs(mController.ly()) > 0.1) {
-            intake.setIndexer(mController.ly()*0.9);
+            intake.setIndexer(mController.ly()/2.5);
+        } else {
+            intake.setIndexer(0.0);
         }
 
         //Shooter
@@ -137,7 +127,7 @@ public class ManipulateCommand extends Command {
         } else if (dController.dpadDown()) {
             diverter.setDiverter(1.0);
         } else if(dController.dpadLeft() || dController.dpadRight()) {
-            diverter.setDiverter(0.5);
+            diverter.setDiverter(0.35);
         }
 
     }

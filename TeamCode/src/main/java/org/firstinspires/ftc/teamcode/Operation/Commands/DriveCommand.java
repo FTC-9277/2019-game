@@ -10,11 +10,12 @@ public class DriveCommand extends Command {
     DriveSubsystem drive;
     Controller dController;
 
-    public DriveCommand(DriveSubsystem subsystem, ExplosiveTele opmode){
+    public DriveCommand(DriveSubsystem subsystem, ExplosiveTele opmode) {
         super(opmode, new Subsystem[] {subsystem});
         this.drive = subsystem;
         this.dController = opmode.dController;
     }
+
     @Override
     public void init() {
 
@@ -27,7 +28,7 @@ public class DriveCommand extends Command {
 
     @Override
     public void loop() {
-        drive.tankDrive(-dController.lx(), -dController.ly());
+        drive.tankDrive(-dController.ly(), -dController.ry());
         //drive.tankDrive(-dController.ly(),-dController.ry());
     }
 

@@ -1,24 +1,22 @@
-package org.firstinspires.ftc.teamcode.Operation.OpModes.Meet2;
+package org.firstinspires.ftc.teamcode.Operation.OpModes.Autos;
 
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveAuto;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
-import org.firstinspires.ftc.teamcode.Operation.Subsystems.ClimbSubsystem;
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
 
-@Autonomous(name = "Depot Only")
+@Autonomous(name = "LC Depot Only")
 public class OneMineralAuto extends ExplosiveAuto{
     Sampler sample;
     ExplosivesRobot robot;
     Servo marker;
-    double currentLeft = 0, currentRight = 0;
-    double climb = 0.23, unhook = 0.975, redeploy = 0.3;
+
+    final double DRIVE_SCALAR = 1;
+    final double TURN_SCALAR = 1;
 
     @Override
     public void initHardware() {
@@ -29,11 +27,13 @@ public class OneMineralAuto extends ExplosiveAuto{
     }
 
     @Override
-    public void initAction() {}
+    public void initAction() {
+        robot.diverterSubsystem.setDiverter(1.0);
+    }
 
     @Override
     protected void climberMaintain() {
-        robot.climbSubsystem.maintain();
+        //robot.climbSubsystem.maintain();
     }
 
     @Override
@@ -46,14 +46,14 @@ public class OneMineralAuto extends ExplosiveAuto{
         while(System.currentTimeMillis() - time < 2000 && opModeIsActive()){
             Thread.sleep(1);
         }*/
-        robot.climbSubsystem.ascend(1000);
+        robot.climbSubsystem.ascend(3000);
         robot.driveSubsystem.resetEncoders();
-        robot.driveSubsystem.autoScaledDrive(200,0.5,0.89);
+        robot.driveSubsystem.autoScaledDrive(200,0.5,DRIVE_SCALAR);
         robot.climbSubsystem.descend(3000);
         robot.driveSubsystem.resetEncoders();
         Log.d("Robot", "Mineral Position Seen: " + mineralPosition);
         if(mineralPosition == 3){
-            robot.driveSubsystem.autoScaledDrive(1100, 0.5,0.89);
+            robot.driveSubsystem.autoScaledDrive(1100, 0.5,DRIVE_SCALAR);
             marker.setPosition(0);
            /* robot.drive.resetEncoders();
             robot.drive.autoScaledTurn(-60,0.6,0.89);
@@ -61,22 +61,22 @@ public class OneMineralAuto extends ExplosiveAuto{
             robot.drive.autoScaledDrive(-250, 0.5, 0.89);
             robot.drive.resetEncoders();*/
         } else if(mineralPosition == 1){
-            robot.driveSubsystem.autoScaledTurn(45,0.6,0.89);
+            robot.driveSubsystem.autoScaledTurn(45,0.6,TURN_SCALAR);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(500,0.5,0.89);
+            robot.driveSubsystem.autoScaledDrive(500,0.5,DRIVE_SCALAR);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(-60,0.6,0.89);
+            robot.driveSubsystem.autoScaledTurn(-60,0.6,TURN_SCALAR);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(500, 0.5,0.89);
+            robot.driveSubsystem.autoScaledDrive(500, 0.5,DRIVE_SCALAR);
             marker.setPosition(0);
         } else if(mineralPosition == 2){
-            robot.driveSubsystem.autoScaledTurn(-45,0.6,0.89);
+            robot.driveSubsystem.autoScaledTurn(-45,0.6,TURN_SCALAR);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(500,0.5,0.89);
+            robot.driveSubsystem.autoScaledDrive(500,0.5,DRIVE_SCALAR);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(60,0.6,0.89);
+            robot.driveSubsystem.autoScaledTurn(60,0.6,TURN_SCALAR);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(500, 0.5,0.89);
+            robot.driveSubsystem.autoScaledDrive(500, 0.5,DRIVE_SCALAR);
             marker.setPosition(0);
         }
 
