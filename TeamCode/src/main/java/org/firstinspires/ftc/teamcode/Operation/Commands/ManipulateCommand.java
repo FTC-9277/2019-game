@@ -64,9 +64,9 @@ public class ManipulateCommand extends Command {
         }
 
         //Intake
-        if (mController.leftTrigger() > 0.75) {
+        if (dController.leftTrigger() > 0.75) {
             intake.setSlider(1.0);
-        } else if (mController.rightTrigger() > 0.75) {
+        } else if (dController.rightTrigger() > 0.75) {
             intake.setSlider(-0.75);
         } else {
             intake.setSlider(0.0);

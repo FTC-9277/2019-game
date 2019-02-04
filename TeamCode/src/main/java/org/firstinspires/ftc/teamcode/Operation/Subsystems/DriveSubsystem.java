@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveAuto;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveBNO055;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosivePIDController;
@@ -24,6 +28,17 @@ public class DriveSubsystem extends Subsystem {
     public ExplosivePIDController controller;
     boolean isAuto, hasGyro;
 
+    public BNO055IMU imu;
+    Orientation last = new Orientation();
+
+
+
+    public static int lengthToTicks(double l){
+        double cir = 4 * Math.PI;
+
+        return (int) (l/cir)*33*2240;
+    }
+//2240 ticks per rotation
     public DriveSubsystem(DcMotor fLeft, DcMotor fRight, DcMotor bLeft, DcMotor bRight, OpMode opmode){
         super(opmode);
         this.opMode = opmode;
@@ -33,6 +48,13 @@ public class DriveSubsystem extends Subsystem {
         isAuto = opmode instanceof ExplosiveAuto;
         if(isAuto) auto = (ExplosiveAuto)opmode;
         hasGyro = false;
+        BNO055IMU.Parameters parms = new BNO055IMU.Parameters();
+        parms.mode = BNO055IMU.SensorMode.IMU;
+        parms.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+
+        imu = opmode.hardwareMap.get(BNO055IMU.class,"imu");
+
+        imu.initialize(parms);
     }
 
     public DriveSubsystem(DcMotor fLeft, DcMotor fRight, DcMotor bLeft, DcMotor bRight, ExplosivePIDEnabledHardware gyro, OpMode opmode){
@@ -47,6 +69,13 @@ public class DriveSubsystem extends Subsystem {
         hasGyro = true;
 
         controller = new ExplosivePIDController(gyro);
+        BNO055IMU.Parameters parms = new BNO055IMU.Parameters();
+        parms.mode = BNO055IMU.SensorMode.IMU;
+        parms.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+
+        imu = opmode.hardwareMap.get(BNO055IMU.class,"imu");
+
+        imu.initialize(parms);
     }
 
     public DriveSubsystem(DcMotor fLeft, DcMotor fRight, DcMotor bLeft, DcMotor bRight, MotorGroupPIDSource gyro, OpMode opmode){
@@ -61,6 +90,13 @@ public class DriveSubsystem extends Subsystem {
         hasGyro = true;
 
         controller = new ExplosivePIDController(gyro);
+        BNO055IMU.Parameters parms = new BNO055IMU.Parameters();
+        parms.mode = BNO055IMU.SensorMode.IMU;
+        parms.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+
+        imu = opmode.hardwareMap.get(BNO055IMU.class,"imu");
+
+        imu.initialize(parms);
     }
 
 
@@ -178,8 +214,8 @@ public class DriveSubsystem extends Subsystem {
                 clicks = -clicks;
                 sign = -1;
             }
-            while ((currentLeft < clicks || currentRight < clicks) && auto.opModeIsActive()) {
-                currentLeft = left.getPosition() * sign;
+            while ((currentRight < clicks) && auto.opModeIsActive()) {
+//                currentLeft = left.getPosition() * sign;
                 currentRight = right.getPosition() * sign;
 
                 /*if (currentLeft < clicks) {
@@ -221,5 +257,78 @@ public class DriveSubsystem extends Subsystem {
             left.set(0);
             right.set(0);
         }
+    }
+
+    public void turn(int degrees) { //gyro = -180, degrees = 90
+        last = imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES);
+        double current = angle();
+        double target = current+degrees;
+
+        double difference = target-current;
+
+        if (target < -180){
+            target+=360;
+        } else if (target > 180){
+            target-=360;
+        }
+
+        long start = System.currentTimeMillis();
+
+        while(auto.opModeIsActive() && Math.abs(angle()-target)>2 && start+2000 > System.currentTimeMillis()) {
+            current = angle();
+            difference = target - current;
+
+            if (difference > 25) {
+                left.set(-0.5);
+                right.set(0.5);
+            } else if (difference > 10) {
+                left.set(-0.1);
+                right.set(0.1);
+            } else if (difference < -25) {
+                left.set(0.5);
+                right.set(-0.5);
+            } else if (difference <-10){
+                left.set(0.1);
+                right.set(-0.1);
+            }
+            opMode.telemetry.addData(">",angle());
+            opMode.telemetry.addData("Targ",target);
+            opMode.telemetry.update();
+        }
+        left.set(0);
+        right.set(0);
+        /*
+        if(isAuto) {
+
+            double sign = 1;
+            double clicks = degrees + angle(); //clicks = -90
+
+            if (clicks < gyro.getOutput()) { // -90 < -180
+//                clicks = -clicks;
+                sign = -1;
+            }
+
+            if(degrees < 0) { // -90 < 0
+                while ((gyro.getOutput() > clicks) && auto.opModeIsActive()) { // -180 > -270
+                    left.set(1 * sign);
+                    right.set(1 * sign * -1);
+                }
+            } else {
+                while ((gyro.getOutput() < clicks) && auto.opModeIsActive()) {
+                    left.set(1 * sign);
+                    right.set(1 * sign * -1);
+                }
+            }
+
+            left.set(0);
+            right.set(0);
+        }*/
+    }
+
+    public double angle(){
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES);
+
+        double delta = angles.firstAngle - last.firstAngle;
+        return delta;
     }
 }

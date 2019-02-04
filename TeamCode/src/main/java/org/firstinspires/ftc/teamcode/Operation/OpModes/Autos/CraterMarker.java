@@ -7,9 +7,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveAuto;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
+import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
 
-@Autonomous(name = "LC Crater Marker")
+@Autonomous(name = "LC Crater Park")
 public class CraterMarker extends ExplosiveAuto{
     Sampler sample;
     ExplosivesRobot robot;
@@ -45,61 +46,24 @@ public class CraterMarker extends ExplosiveAuto{
         while(System.currentTimeMillis() - time < 2000 && opModeIsActive()){
             Thread.sleep(1);
         }*/
-        robot.climbSubsystem.ascend(3000);
-        robot.driveSubsystem.resetEncoders();
-        robot.driveSubsystem.autoScaledDrive(200,0.5,DRIVE_SCALAR);
-        robot.climbSubsystem.descend(3000);
-        robot.driveSubsystem.resetEncoders();
         Log.d("Robot", "Mineral Position Seen: " + mineralPosition);
         if(mineralPosition == 3){
-            robot.driveSubsystem.autoScaledDrive(300, 0.5,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(-300,0.5,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(-80,0.3,TURN_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(1000,0.5,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(-55,0.3,TURN_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(1000,0.7,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            marker.setPosition(0.5);
-            robot.driveSubsystem.autoScaledDrive(-1700,0.7,DRIVE_SCALAR);
+            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(32), 0.5,DRIVE_SCALAR);
+            //400
         } else if(mineralPosition == 1){
-            robot.driveSubsystem.autoScaledTurn(45,0.3,TURN_SCALAR);
+            robot.driveSubsystem.turn(45);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(400,0.5,DRIVE_SCALAR);
+            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(24),0.5,DRIVE_SCALAR);
+            robot.driveSubsystem.turn(-45);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(-400, 0.5, DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(-125, 0.3,TURN_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(1000,0.5,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(-55,0.3,TURN_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(1000,0.7,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            marker.setPosition(0.5);
-            robot.driveSubsystem.autoScaledDrive(-1700,0.7,DRIVE_SCALAR);
+            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(8), 0.5, DRIVE_SCALAR);
         } else if(mineralPosition == 2){
-            robot.driveSubsystem.autoScaledTurn(-45,0.3,TURN_SCALAR);
+            robot.driveSubsystem.turn(-45);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(400,0.5,DRIVE_SCALAR);
+            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(24),0.5,DRIVE_SCALAR);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(-400, 0.5,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(-35,0.3,TURN_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(1200,0.5,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(-55,0.3,TURN_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(1000,0.7,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
-            marker.setPosition(0.5);
-            robot.driveSubsystem.autoScaledDrive(-1700,0.7,DRIVE_SCALAR);
+            robot.driveSubsystem.turn(-45);
+            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(8), 0.5, DRIVE_SCALAR);
         }
 
     }

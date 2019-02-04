@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveAuto;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
 
-@Autonomous(name = "LC Depot Only")
+//@Autonomous(name = "LC Depot Only")
 public class OneMineralAuto extends ExplosiveAuto{
     Sampler sample;
     ExplosivesRobot robot;
@@ -46,10 +46,10 @@ public class OneMineralAuto extends ExplosiveAuto{
         while(System.currentTimeMillis() - time < 2000 && opModeIsActive()){
             Thread.sleep(1);
         }*/
-        robot.climbSubsystem.ascend(3000);
+//        robot.climbSubsystem.ascend(3000);
         robot.driveSubsystem.resetEncoders();
         robot.driveSubsystem.autoScaledDrive(200,0.5,DRIVE_SCALAR);
-        robot.climbSubsystem.descend(3000);
+//        robot.climbSubsystem.descend(3000);
         robot.driveSubsystem.resetEncoders();
         Log.d("Robot", "Mineral Position Seen: " + mineralPosition);
         if(mineralPosition == 3){
@@ -61,20 +61,20 @@ public class OneMineralAuto extends ExplosiveAuto{
             robot.drive.autoScaledDrive(-250, 0.5, 0.89);
             robot.drive.resetEncoders();*/
         } else if(mineralPosition == 1){
-            robot.driveSubsystem.autoScaledTurn(45,0.6,TURN_SCALAR);
+            robot.driveSubsystem.turn(45);
             robot.driveSubsystem.resetEncoders();
             robot.driveSubsystem.autoScaledDrive(500,0.5,DRIVE_SCALAR);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(-60,0.6,TURN_SCALAR);
+            robot.driveSubsystem.turn(-60);
             robot.driveSubsystem.resetEncoders();
             robot.driveSubsystem.autoScaledDrive(500, 0.5,DRIVE_SCALAR);
             marker.setPosition(0);
         } else if(mineralPosition == 2){
-            robot.driveSubsystem.autoScaledTurn(-45,0.6,TURN_SCALAR);
+            robot.driveSubsystem.turn(-45);
             robot.driveSubsystem.resetEncoders();
             robot.driveSubsystem.autoScaledDrive(500,0.5,DRIVE_SCALAR);
             robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledTurn(60,0.6,TURN_SCALAR);
+            robot.driveSubsystem.turn(60);
             robot.driveSubsystem.resetEncoders();
             robot.driveSubsystem.autoScaledDrive(500, 0.5,DRIVE_SCALAR);
             marker.setPosition(0);
