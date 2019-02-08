@@ -1,19 +1,19 @@
 package org.firstinspires.ftc.teamcode.FtcExplosivesPackage;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 /**
  * Created by Varun on 11/16/2017.
  */
 
-public abstract class ExplosiveTele extends OpMode{
-
-    public Controller dController, mController;
+public abstract class ExplosiveTele extends LinearOpMode {
+    
+    public Gamepad dController, mController;
     boolean isStarted, isLooping, isFinished;
 
     public abstract void initHardware();
-
-    public abstract void initAction();
 
     public abstract void firstLoop();
 
@@ -22,7 +22,28 @@ public abstract class ExplosiveTele extends OpMode{
     public abstract void exit();
 
     @Override
-    public void init(){
+    public void runOpMode() {
+
+        teleInit();
+
+        waitForStart();
+
+        startTele();
+
+        while(opModeIsActive()) {
+            bodyLoop();
+        }
+
+        isFinished = true;
+        isLooping = false;
+
+        telemetry.addData("Exit", "Started");
+
+        exit();
+
+    }
+
+    public void teleInit(){
         telemetry.addData("Initializing", "Started");
         telemetry.update();
 
@@ -30,41 +51,28 @@ public abstract class ExplosiveTele extends OpMode{
         isStarted = false;
         isLooping = false;
 
-        dController = new Controller(gamepad1);
-        mController = new Controller(gamepad2);
+        dController = gamepad1;
+        mController = gamepad2;
 
         initHardware();
-        initAction();
 
         telemetry.addData("Initializing", "Finished");
         telemetry.update();
     }
 
-    @Override
-    public void start(){
+    public void startTele(){
         telemetry.addData("First Loop", "Started");
         telemetry.update();
 
         firstLoop();
 
         isStarted = true;
+        isLooping = true;
 
         telemetry.addData("First Loop", "Finished");
         telemetry.update();
+
+
     }
 
-    @Override
-    public void loop(){
-        bodyLoop();
-        isLooping = true;
-    }
-
-    @Override
-    public void stop(){
-        telemetry.addData("Exit", "Started");
-
-        exit();
-
-        isFinished = true;
-    }
 }

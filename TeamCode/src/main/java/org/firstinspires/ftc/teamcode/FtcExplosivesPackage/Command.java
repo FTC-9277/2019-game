@@ -18,6 +18,12 @@ public abstract class Command implements Runnable {
         cmdErrorLog = new TelemetryLog(opMode);
     }
 
+    public Command(ExplosiveTele opMode){
+        this.t = new Thread(this);
+        this.opMode = opMode;
+        cmdErrorLog = new TelemetryLog(opMode);
+    }
+
     public void enable() {
         if (t == null) {
             cmdErrorLog.add("Attempted to start un-initialized Command. Remember to call super() in command constructor");
@@ -54,9 +60,6 @@ public abstract class Command implements Runnable {
         isRunning = true;
 
         init();
-        for (Subsystem subsystem : subsystems) {
-            subsystem.enable();
-        }
 
         while(!isStarted() && !cancel){
             try {
@@ -80,14 +83,6 @@ public abstract class Command implements Runnable {
             loop();
         }
 
-        for (Subsystem subsystem : subsystems) {
-            subsystem.disable();
-        }
-
-        stop();
-        for (Subsystem subsystem : subsystems) {
-            subsystem.stop();
-        }
         finish();
     }
 

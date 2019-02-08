@@ -34,44 +34,36 @@ public class IntakeTest extends ExplosiveTele {
     }
 
     @Override
-    public void initAction() {
-    }
-
-    @Override
     public void firstLoop() {
-        intakeSubsystem.enable();
     }
-
-    boolean dpadUpLocked = false;
-    boolean dpadDownLocked = false;
 
     @Override
     public void bodyLoop() {
-        if(dController.rightBumper() || mController.rightBumper()) {
+        if(dController.right_bumper || mController.right_bumper) {
             intakeSubsystem.setIntake(1.0);
         }
 
-        if(Math.abs(mController.ly()) > 0.1) {
-            intakeSubsystem.setLeftSlide(mController.ly());
+        if(Math.abs(mController.left_stick_y) > 0.1) {
+            intakeSubsystem.setLeftSlide((double) mController.left_stick_y);
         } else {
             intakeSubsystem.setLeftSlide(0.0);
         }
 
-        if(Math.abs(mController.ry()) > 0.1) {
-            intakeSubsystem.setRightSlide(mController.ry());
+        if(Math.abs(mController.right_stick_y) > 0.1) {
+            intakeSubsystem.setRightSlide((double) mController.right_stick_y);
         } else {
             intakeSubsystem.setRightSlide(0.0);
         }
 
-        if(mController.dpadUp()) {
+        if(mController.dpad_up) {
             intakeSubsystem.pullUp();
-        } else if(mController.dpadDown()) {
+        } else if(mController.dpad_down) {
             intakeSubsystem.drop();
         }
 
-        if(mController.leftTrigger() > 0.75) {
+        if(mController.left_trigger > 0.75) {
             intakeSubsystem.setIndexer(0.9);
-        } else if (mController.rightTrigger() > 0.75) {
+        } else if (mController.right_trigger > 0.75) {
             intakeSubsystem.setIndexer(0.9);
         }
 
@@ -82,8 +74,4 @@ public class IntakeTest extends ExplosiveTele {
 
     }
 
-    @Override
-    public void loop() {
-
-    }
 }

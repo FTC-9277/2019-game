@@ -28,6 +28,11 @@ public class TurnTest extends ExplosiveAuto {
     }
 
     @Override
+    protected void initLoop() {
+
+    }
+
+    @Override
     public void body() throws InterruptedException {
         robot.driveSubsystem.turn(60);
         robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(24),0.5,1);
@@ -35,8 +40,4 @@ public class TurnTest extends ExplosiveAuto {
         robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(10), 0.5, 1);
     }
 
-    @Override
-    protected void climberMaintain() {
-
-    }
 }

@@ -32,11 +32,6 @@ public class CraterMarker extends ExplosiveAuto{
     }
 
     @Override
-    protected void climberMaintain() {
-//        robot.climbSubsystem.maintain();
-    }
-
-    @Override
     public void body() throws InterruptedException {
         int mineralPosition = sample.sample();
         //int mineralPosition = 3;
@@ -71,5 +66,10 @@ public class CraterMarker extends ExplosiveAuto{
     @Override
     public void exit() throws InterruptedException {
 
+    }
+
+    @Override
+    protected void initLoop() {
+        robot.climbSubsystem.maintain();
     }
 }

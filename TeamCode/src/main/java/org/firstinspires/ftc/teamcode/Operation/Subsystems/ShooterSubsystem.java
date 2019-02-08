@@ -6,27 +6,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 
-public class ShooterSubsystem extends Subsystem {
+public class ShooterSubsystem {
     DcMotor shooter;
 
     public ShooterSubsystem(DcMotor shooter, OpMode opmode){
-        super(opmode);
         this.shooter = shooter;
-    }
-
-    @Override
-    public void enable() {
-
-    }
-
-    @Override
-    public void disable() {
-
-    }
-
-    @Override
-    public void stop() {
-
     }
 
     public void setShooter(Double pow) {

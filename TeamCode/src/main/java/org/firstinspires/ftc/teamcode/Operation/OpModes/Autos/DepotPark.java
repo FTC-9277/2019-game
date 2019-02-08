@@ -47,10 +47,6 @@ public class DepotPark extends ExplosiveAuto{
         robot.diverterSubsystem.setDiverter(1.0);
     }
 
-    @Override
-    protected void climberMaintain() {
-//        robot.climbSubsystem.maintain();
-    }
 
     @Override
     public void body() throws InterruptedException {
@@ -111,6 +107,11 @@ public class DepotPark extends ExplosiveAuto{
 
     @Override
     public void exit() throws InterruptedException {
+    }
+
+    @Override
+    protected void initLoop() {
+        robot.climbSubsystem.maintain();
     }
 
 }

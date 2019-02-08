@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 
-public class ClimbSubsystem extends Subsystem {
+public class ClimbSubsystem {
 
     DcMotor climber;
     double encoderTicks;
@@ -17,21 +17,8 @@ public class ClimbSubsystem extends Subsystem {
     public OpMode opMode;
 
     public ClimbSubsystem(DcMotor climber, OpMode opmode){
-        super(opmode);
         this.climber = climber;
         this.opMode = opmode;
-    }
-
-    @Override
-    public void enable() {
-    }
-
-    @Override
-    public void disable() {
-    }
-
-    @Override
-    public void stop() {
     }
 
     public void setEncoderTicks() {

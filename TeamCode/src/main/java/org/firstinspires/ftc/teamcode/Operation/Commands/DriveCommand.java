@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Operation.Commands;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
+
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Command;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Controller;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveTele;
@@ -8,10 +10,10 @@ import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 
 public class DriveCommand extends Command {
     DriveSubsystem drive;
-    Controller dController;
+    Gamepad dController;
 
     public DriveCommand(DriveSubsystem subsystem, ExplosiveTele opmode) {
-        super(opmode, new Subsystem[] {subsystem});
+        super(opmode);
         this.drive = subsystem;
         this.dController = opmode.dController;
     }
@@ -28,7 +30,7 @@ public class DriveCommand extends Command {
 
     @Override
     public void loop() {
-        drive.tankDrive(-dController.ly(), -dController.ry());
+        drive.tankDrive(-dController.left_stick_y, -dController.right_stick_y);
         //drive.tankDrive(-dController.ly(),-dController.ry());
 
 

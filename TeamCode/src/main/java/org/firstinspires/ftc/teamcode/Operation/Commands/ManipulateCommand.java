@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Operation.Commands;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
+
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Command;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Controller;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveTele;
@@ -17,10 +19,10 @@ public class ManipulateCommand extends Command {
     ShooterSubsystem shooter;
     DiverterSubsystem diverter;
 
-    Controller dController, mController;
+    Gamepad dController, mController;
 
     public ManipulateCommand(IntakeSubsystem intake, ClimbSubsystem climb, ShooterSubsystem shooter, DiverterSubsystem diverter, ExplosiveTele opmode){
-        super(opmode, new Subsystem[] {intake, climb, shooter});
+        super(opmode);
         this.intake = intake;
         this.diverter = diverter;
         this.climb = climb;
@@ -55,24 +57,24 @@ public class ManipulateCommand extends Command {
 //        } else {
 //            maintainLocked = false;
 //        }
-        if(dController.a()) {
+        if(dController.a) {
             climb.descend();
-        } else if(dController.y()) {
+        } else if(dController.y) {
             climb.ascend();
         } else {
             climb.stopClimbing();
         }
 
         //Intake
-        if (dController.leftTrigger() > 0.75) {
+        if (dController.left_trigger > 0.75) {
             intake.setSlider(1.0);
-        } else if (dController.rightTrigger() > 0.75) {
+        } else if (dController.right_trigger > 0.75) {
             intake.setSlider(-0.75);
         } else {
             intake.setSlider(0.0);
         }
 
-        intake.setIntake(mController.ry()*0.9);
+        intake.setIntake(mController.right_stick_y*0.9);
 
 //        if(mController.rightBumper()) {
 //            intake.setIntake(0.9);
@@ -85,16 +87,16 @@ public class ManipulateCommand extends Command {
             intake.setIntake(0.0);
         }*/
 
-        if(mController.dpadUp()){
+        if(mController.dpad_up){
             intake.pullUp();
-        } else if(mController.dpadDown()){
+        } else if(mController.dpad_down){
             intake.drop();
         } else {
             intake.stopIntake();
         }
 
-        if(Math.abs(mController.ly()) > 0.1) {
-            intake.setIndexer(mController.ly()/2.5);
+        if(Math.abs(mController.left_stick_y) > 0.1) {
+            intake.setIndexer(mController.left_stick_y/2.5);
         } else {
             intake.setIndexer(0.0);
         }
@@ -116,17 +118,17 @@ public class ManipulateCommand extends Command {
 //            shooterLocked = false;
 //        }
 
-        if(mController.b()) {
+        if(mController.b) {
             shooter.setShooter(1.0);
         } else {
             shooter.setShooter(0.0);
         }
 
-        if(dController.dpadUp()) {
+        if(dController.dpad_up) {
             diverter.setDiverter(0.0);
-        } else if (dController.dpadDown()) {
+        } else if (dController.dpad_down) {
             diverter.setDiverter(1.0);
-        } else if(dController.dpadLeft() || dController.dpadRight()) {
+        } else if(dController.dpad_left || dController.dpad_right) {
             diverter.setDiverter(0.35);
         }
 

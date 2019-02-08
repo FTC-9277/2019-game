@@ -24,12 +24,11 @@ public class FullTele extends ExplosiveTele {
         robot = new ExplosivesRobot(this);
         driveCommand = new DriveCommand(robot.driveSubsystem, this);
         manipulateCommand = new ManipulateCommand(robot.intakeSubsystem, robot.climbSubsystem, robot.shooterSubsystem, robot.diverterSubsystem, this);
-    }
 
-    @Override
-    public void initAction() {
-        dController.setJoystickDeadzone(Controller.DeadzoneType.CIRCULAR, 0.1);
-        mController.setJoystickDeadzone(Controller.DeadzoneType.CIRCULAR, 0.1);
+
+
+        //        dController.setJoystickDeadzone(Controller.DeadzoneType.CIRCULAR, 0.1);
+//        mController.setJoystickDeadzone(Controller.DeadzoneType.CIRCULAR, 0.1);
         manipulateCommand.setDiverter(0.5);
     }
 
@@ -41,11 +40,13 @@ public class FullTele extends ExplosiveTele {
 
     @Override
     public void bodyLoop() {
-        telemetry.addData("Yaw", robot.driveSubsystem.getOutput());
+        telemetry.addData("Gyro >", robot.driveSubsystem.angle());
+        telemetry.update();
     }
 
     @Override
     public void exit() {
 
     }
+
 }

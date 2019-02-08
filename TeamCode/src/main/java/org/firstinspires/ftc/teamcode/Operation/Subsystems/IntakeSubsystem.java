@@ -8,13 +8,12 @@ import com.sun.tools.javac.tree.DCTree;
 
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 
-public class IntakeSubsystem extends Subsystem {
+public class IntakeSubsystem {
     DcMotor leftSlide, rightSlide;
     CRServo intake, leftIntake, rightIntake, indexer;
     OpMode opmode;
 
     public IntakeSubsystem(DcMotor leftSlide, DcMotor rightSlide, CRServo intake, CRServo leftIntake, CRServo rightIntake, CRServo indexer, OpMode opmode){
-        super(opmode);
         this.opmode = opmode;
         this.indexer = indexer;
         this.intake = intake;
@@ -22,21 +21,6 @@ public class IntakeSubsystem extends Subsystem {
         this.rightSlide = rightSlide;
         this.leftIntake = leftIntake;
         this.rightIntake = rightIntake;
-    }
-
-    @Override
-    public void enable() {
-
-    }
-
-    @Override
-    public void disable() {
-
-    }
-
-    @Override
-    public void stop() {
-
     }
 
     public void setLeftSlide(Double pow) {
@@ -53,7 +37,6 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public void setIntake(Double pow) {
-        opmode.telemetry.addData("Power", intake.getPower());
         intake.setPower(pow);
     }
 

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Operation;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,13 +17,14 @@ import org.firstinspires.ftc.teamcode.Operation.Subsystems.DiverterSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.Sensors.Gyro;
 
 public class ExplosivesRobot {
     DcMotor fLeft, bLeft, fRight, bRight, leftSlide, rightSlide, shooter, climber;
     CRServo intake, leftIntake, rightIntake, indexer;
     Servo diverter;
-    ExplosivePIDEnabledHardware gyro;
-    OpMode opMode;
+    Gyro gyro;
+    LinearOpMode opMode;
     MotorGroup a,b;
 
     public DriveSubsystem driveSubsystem;
@@ -30,7 +33,7 @@ public class ExplosivesRobot {
     public ShooterSubsystem shooterSubsystem;
     public DiverterSubsystem diverterSubsystem;
 
-    public ExplosivesRobot(OpMode opmode) {
+    public ExplosivesRobot(LinearOpMode opmode) {
         this.opMode = opmode;
 
         //Drive
@@ -60,13 +63,16 @@ public class ExplosivesRobot {
 
         a = new MotorGroup(opmode,fLeft, bLeft);
         b = new MotorGroup(opmode, fRight, bRight);
-        gyro = new MotorGroupPIDSource(b,a);
+
+        gyro = new Gyro(opmode);
 
         driveSubsystem = new DriveSubsystem(fLeft, fRight, bLeft, bRight, gyro, opmode);
         climbSubsystem = new ClimbSubsystem(climber, opmode);
         intakeSubsystem = new IntakeSubsystem(leftSlide, rightSlide, intake, leftIntake, rightIntake, indexer, opmode);
         shooterSubsystem = new ShooterSubsystem(shooter, opmode);
         diverterSubsystem = new DiverterSubsystem(diverter, opmode);
+
+
 
     }
 }
