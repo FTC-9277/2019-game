@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveAuto;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveBNO055;
 import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosivePIDController;
@@ -220,7 +221,7 @@ public class DriveSubsystem {
 
     public void turn(int degrees) { //gyro = -180, degrees = 90
         last = gyro.getOrientation();
-        double current = angle();
+        double current = heading();
         double target = current+degrees;
 
         double difference = target-current;
@@ -233,8 +234,8 @@ public class DriveSubsystem {
 
         long start = System.currentTimeMillis();
 
-        while(auto.opModeIsActive() && Math.abs(angle()-target)>2 && start+2000 > System.currentTimeMillis()) {
-            current = angle();
+        while(auto.opModeIsActive() && Math.abs(heading()-target)>2 && start+2000 > System.currentTimeMillis()) {
+            current = heading();
             difference = target - current;
 
             if (difference > 25) {
@@ -250,7 +251,7 @@ public class DriveSubsystem {
                 left.set(0.1);
                 right.set(-0.1);
             }
-            opMode.telemetry.addData(">",angle());
+            opMode.telemetry.addData(">",heading());
             opMode.telemetry.addData("Targ",target);
             opMode.telemetry.update();
         }
@@ -293,12 +294,24 @@ public class DriveSubsystem {
         return right.getPosition();
     }
 
-    public double angle(){
+    public double heading(){
 //        Orientation angles = gyro.getOrientation();
 
 //        double delta = angles.firstAngle - last.firstAngle;
 //        return delta;
 
         return gyro.heading();
+    }
+
+    public double roll() {
+        return gyro.roll();
+    }
+
+    public double pitch() {
+        return gyro.pitch();
+    }
+
+    public Position getPosition() {
+        return gyro.getPosition();
     }
 }

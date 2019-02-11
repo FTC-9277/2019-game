@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
 public class Gyro {
 
@@ -26,6 +27,7 @@ public class Gyro {
 
         imu = opMode.hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
     }
 
     public Orientation getAngle() {
@@ -50,6 +52,10 @@ public class Gyro {
 
     public Orientation getOrientation() {
         return imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES);
+    }
+
+    public Position getPosition() {
+        return imu.getPosition();
     }
 
 }

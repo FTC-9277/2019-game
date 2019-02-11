@@ -40,7 +40,11 @@ public class FullTele extends ExplosiveTele {
 
     @Override
     public void bodyLoop() {
-        telemetry.addData("Gyro >", robot.driveSubsystem.angle());
+        telemetry.addData("Heading", robot.driveSubsystem.heading());
+        telemetry.addData("Roll", robot.driveSubsystem.roll());
+        telemetry.addData("Pitch", robot.driveSubsystem.pitch());
+        telemetry.addData("Pos", robot.driveSubsystem.getPosition());
+
         telemetry.update();
     }
 
