@@ -9,11 +9,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
+import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.Sensors.Gyro;
 
 @Autonomous(name = "Gyro Test")
 public class GyroTest extends LinearOpMode {
 
-    BNO055IMU imu;
+    ExplosivesRobot robot;
 
     Orientation last = new Orientation();
 
@@ -21,31 +24,23 @@ public class GyroTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        BNO055IMU.Parameters parms = new BNO055IMU.Parameters();
-        parms.mode = BNO055IMU.SensorMode.IMU;
-        parms.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-
-        imu = hardwareMap.get(BNO055IMU.class,"imu");
-
-        imu.initialize(parms);
-
+        robot = new ExplosivesRobot(this);
 
         waitForStart();
 
-        while(opModeIsActive()){
-            telemetry.addData(">", imu.getCalibrationStatus());
-            telemetry.addData(">",angle());
-            telemetry.update();
+        robot.driveSubsystem.turn(-90);
 
+        wait(4000);
 
+        robot.driveSubsystem.turn(90);
+
+    }
+
+    public void wait(int millis) {
+        long t = System.currentTimeMillis() + millis;
+        while(System.currentTimeMillis() < t) {
+            //Wait
         }
     }
 
-
-    public double angle(){
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES);
-
-        double delta = angles.firstAngle - last.firstAngle;
-        return delta;
-    }
 }

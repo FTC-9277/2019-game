@@ -14,8 +14,11 @@ public class ForwardTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot = new ExplosivesRobot(this);
 
-        long t = System.currentTimeMillis();
+        robot.driveSubsystem.resetEncoders();
 
-        robot.driveSubsystem.autoScaledDrive(150, 1, 1);
+        waitForStart();
+
+        robot.driveSubsystem.drive(500);
+
     }
 }

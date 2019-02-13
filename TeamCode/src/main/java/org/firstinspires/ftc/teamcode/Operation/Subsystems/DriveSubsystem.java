@@ -33,12 +33,18 @@ public class DriveSubsystem {
 
     Orientation last = new Orientation();
 
-    public static int lengthToTicks(double l){
-        double cir = 4 * Math.PI;
+    public static int lengthToTicks(double l) {
+//        double cir = 4 * Math.PI;
+//
+//        return (int) (l/cir)*33*2240;//0.054
+        //27in = 500 ticks
+        //Every tick is about 0.054 inches
 
-        return (int) (l/cir)*33*2240;
+        return (int) Math.round(l*0.054);
+
+//        return (int) l*0.054;
     }
-//2240 ticks per rotation
+    //2240 ticks per rotation
     public DriveSubsystem(DcMotor fLeft, DcMotor fRight, DcMotor bLeft, DcMotor bRight, OpMode opmode){
         this.opMode = opmode;
         this.left = new MotorGroup(opmode,fLeft,bLeft);
@@ -95,7 +101,7 @@ public class DriveSubsystem {
         right.set(y+x);
     }
 
-//    public void PIDDrive(int clicks, double pow){
+    //    public void PIDDrive(int clicks, double pow){
 //        if(isAuto){
 //            double sign = 1;
 //            currentLeft = 0;
@@ -144,57 +150,175 @@ public class DriveSubsystem {
                 clicks = -clicks;
                 sign = -1;
             }
+
+            Double last = gyro.heading();
+
             while ((currentLeft < clicks || currentRight < clicks) && auto.opModeIsActive()) {
+
+                double difference = last-gyro.heading();
+
                 currentLeft = left.getPosition() * sign;
                 currentRight = right.getPosition() * sign;
 
-                if (currentLeft < clicks) {
-                    left.set(pow * sign);
+                if (Math.abs(difference) < 3) {
+                    if (currentLeft < clicks) {
+                        left.set((pow * sign));
+                    } else {
+                        left.set(0);
+                    }
+
+                    if (currentRight < clicks) {
+                        right.set(pow * sign);
+                    } else {
+                        right.set(0);
+                    }
+                } else if (difference < 0) { //It's more than it should be; counterclockwise, should turn clockwise
+                    if (currentLeft < clicks) {
+                        left.set((pow * sign));
+                    } else {
+                        left.set(0);
+                    }
+
+                    if (currentRight < clicks) {
+                        right.set((pow-0.1) * sign);
+                    } else {
+                        right.set(0);
+                    }
                 } else {
-                    left.set(0);
+                    if (currentLeft < clicks) {
+                        left.set(((pow-0.1) * sign));
+                    } else {
+                        left.set(0);
+                    }
+
+                    if (currentRight < clicks) {
+                        right.set(pow * sign);
+                    } else {
+                        right.set(0);
+                    }
                 }
 
-                if (currentRight < clicks) {
-                    right.set(pow * sign);
-                } else {
-                    right.set(0);
-                }
+
+
+
             }
         }
 
 
     }
 
-    public void autoScaledDrive(int clicks, double pow, double scalar) {
-        if (isAuto) {
-            double sign = 1;
-            currentLeft = 0;
-            currentRight = 0;
-            if (clicks < 0) {
-                clicks = -clicks;
-                sign = -1;
-            }
-            while ((currentRight < clicks) && auto.opModeIsActive()) {
-//                currentLeft = left.getPosition() * sign;
-                currentRight = right.getPosition() * sign;
+    public void driveInches(double inches) {
+        autoDrive(lengthToTicks(inches), 0.5);
+    }
 
-                /*if (currentLeft < clicks) {
-                    left.set(pow * sign);
-                } else {
-                    left.set(0);
-                }
+    public void drive(int clicks) throws InterruptedException {
 
-                if (currentRight < clicks) {
-                    right.set(pow * sign * scalar);
-                } else {
-                    right.set(0);
-                }*/
-                left.set(pow * sign);
-                right.set(pow * sign * scalar);
+        double initialGyro = gyro.heading();
+
+        if (clicks > 0) {
+            while (right.getPosition() < clicks) {
+                tankDrive(1, 1);
             }
-            left.set(0);
-            right.set(0);
+        } else {
+            while(right.getPosition() > -clicks) {
+                tankDrive(-1, -1);
+            }
         }
+
+        while(Math.abs(initialGyro-gyro.heading()) > 5) {
+            if (gyro.heading() > initialGyro) { //Counterclockwise, should be clockwise
+                left.set(0.3);
+                right.set(0);
+            } else { //Clockwise, should be counterclockwise
+                left.set(0);
+                right.set(0.3);
+            }
+        }
+
+        tankDrive(0,0);
+
+        resetEncoders();
+
+//        resetEncoders();
+//
+//        double initialAngle = gyro.heading();
+//
+//        while(right.getPosition() < clicks) {
+//
+//            opMode.telemetry.addData("Difference",Math.abs(initialAngle)-gyro.heading());
+//            opMode.telemetry.addData("<", gyro.heading());
+//            opMode.telemetry.addData("Initial", initialAngle);
+//            opMode.telemetry.addData("Encoder",right.getPosition());
+//            opMode.telemetry.update();
+//
+//            if(Math.abs(initialAngle)-gyro.heading() < 3) {
+//                left.set(0.6);
+//                right.set(0.725);
+//            } else if(initialAngle < gyro.heading()) { //It's more than it needs to be; counterclockwise, should be clockwise
+//                left.set(0.4);
+//                right.set(0.7);
+//            } else if(initialAngle > gyro.heading()) { //It's less than it needs to be; clockwise, should be counterclockwise
+//                left.set(0.3);
+//                right.set(1);
+//            }
+//        }
+//
+//        left.set(0);
+//        right.set(0);
+//
+//        resetEncoders();
+    }
+
+    public void autoScaledDrive(int clicks, double pow, double scalar) {
+
+        try {
+            drive(clicks);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+//        if (isAuto) {
+//
+//            try {
+//                resetEncoders();
+//            } catch(InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+//            double sign = 1;
+//            currentLeft = 0;
+//            currentRight = 0;
+//            if (clicks < 0) {
+//                clicks = -clicks;
+//                sign = -1;
+//            }
+//            while ((currentRight < clicks) && auto.opModeIsActive()) {
+////                currentLeft = left.getPosition() * sign;
+//                currentRight = right.getPosition() * sign;
+//
+//                /*if (currentLeft < clicks) {
+//                    left.set(pow * sign);
+//                } else {
+//                    left.set(0);
+//                }
+//
+//                if (currentRight < clicks) {
+//                    right.set(pow * sign * scalar);
+//                } else {
+//                    right.set(0);
+//                }*/
+//                left.set(pow * sign);
+//                right.set(pow * sign * scalar);
+//            }
+//            left.set(0);
+//            right.set(0);
+//        }
+//
+//        try {
+//            resetEncoders();
+//        } catch(InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void autoScaledTurn(int degrees, double pow, double scalar){
@@ -219,7 +343,7 @@ public class DriveSubsystem {
         }
     }
 
-    public void turn(int degrees) { //gyro = -180, degrees = 90
+    public void turn(int degrees) {
         last = gyro.getOrientation();
         double current = heading();
         double target = current+degrees;
@@ -238,19 +362,26 @@ public class DriveSubsystem {
             current = heading();
             difference = target - current;
 
-            if (difference > 25) {
-                left.set(-0.5);
-                right.set(0.5);
-            } else if (difference > 10) {
-                left.set(-0.1);
-                right.set(0.1);
-            } else if (difference < -25) {
-                left.set(0.5);
-                right.set(-0.5);
-            } else if (difference <-10){
-                left.set(0.1);
-                right.set(-0.1);
+            if (difference > 50) {
+                left.set(-0.8);
+                right.set(0.8);
+            } else if (difference > 30) {
+                left.set(-0.3);
+                right.set(0.3);
+            } else if (difference > 15) {
+                left.set(-0.25);
+                right.set(0.25);
+            } else if (difference < -50) {
+                left.set(0.8);
+                right.set(-0.8);
+            } else if (difference <-30){
+                left.set(0.3);
+                right.set(-0.3);
+            } else if (difference <-15) {
+                left.set(0.25);
+                right.set(-0.25);
             }
+
             opMode.telemetry.addData(">",heading());
             opMode.telemetry.addData("Targ",target);
             opMode.telemetry.update();
@@ -286,6 +417,7 @@ public class DriveSubsystem {
     }
 
 
+
     public double leftEncoder() {
         return left.getPosition();
     }
@@ -294,7 +426,7 @@ public class DriveSubsystem {
         return right.getPosition();
     }
 
-    public double heading(){
+    public double heading() {
 //        Orientation angles = gyro.getOrientation();
 
 //        double delta = angles.firstAngle - last.firstAngle;
@@ -313,5 +445,13 @@ public class DriveSubsystem {
 
     public Position getPosition() {
         return gyro.getPosition();
+    }
+
+    public void swingTurn(double speed, double swingDistance){
+        final double r = 15.789;
+        double leftPower = speed*(1+((swingDistance/(2*r))));
+        double rightPower = speed*(1-((swingDistance/(2*r))));
+        //while(auto.opModeIsActive() && Math.abs(heading()-target)>2 && start+2000 > System.currentTimeMillis())
+
     }
 }

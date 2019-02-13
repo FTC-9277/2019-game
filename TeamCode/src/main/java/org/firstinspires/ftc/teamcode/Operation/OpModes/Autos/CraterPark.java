@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
 
 @Autonomous(name = "LC Crater Park")
-public class CraterMarker extends ExplosiveAuto{
+public class CraterPark extends ExplosiveAuto{
     Sampler sample;
     ExplosivesRobot robot;
     Servo marker;

@@ -1,5 +1,3 @@
 # ninja log v5
-1	1481	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	c9c0060262366e66
-1482	1855	0	/Users/alex/Library/Mobile Documents/com~apple~CloudDocs/LHPS/General/Robotics Team/2019/2019-game/TeamCode/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	4c2d7c71b042213d
-2	973	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	c9c0060262366e66
-973	1177	0	/Users/alex/Library/Mobile Documents/com~apple~CloudDocs/LHPS/General/Robotics Team/2019/2019-game/TeamCode/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	4c2d7c71b042213d
+0	891	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	940e0911e78460b4
+892	1088	0	/Users/alex/Library/Mobile Documents/com~apple~CloudDocs/LHPS/General/Robotics Team/2019/2019-game-fixed/TeamCode/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	82efe86a2634913a

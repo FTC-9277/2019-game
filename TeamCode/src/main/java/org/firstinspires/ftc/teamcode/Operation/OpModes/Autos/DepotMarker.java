@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
 
 @Autonomous(name = "LC Depot Marker")
-public class DepotPark extends ExplosiveAuto{
+public class DepotMarker extends ExplosiveAuto{
     Sampler sample;
     ExplosivesRobot robot;
     Servo marker;
