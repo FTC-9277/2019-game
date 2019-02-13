@@ -18,7 +18,7 @@ public class ForwardTest extends LinearOpMode {
 
         waitForStart();
 
-        robot.driveSubsystem.drive(500);
+        robot.driveSubsystem.driveEncoders(500, 0.8);
 
     }
 }

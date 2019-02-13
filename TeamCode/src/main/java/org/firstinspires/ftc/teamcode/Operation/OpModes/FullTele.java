@@ -43,7 +43,8 @@ public class FullTele extends ExplosiveTele {
         telemetry.addData("Heading", robot.driveSubsystem.heading());
         telemetry.addData("Roll", robot.driveSubsystem.roll());
         telemetry.addData("Pitch", robot.driveSubsystem.pitch());
-        telemetry.addData("Pos", robot.driveSubsystem.getPosition());
+        telemetry.addData("Right Encoder", robot.driveSubsystem.rightEncoder());
+        telemetry.addData("Left Encoder", robot.driveSubsystem.leftEncoder());
 
         telemetry.update();
     }

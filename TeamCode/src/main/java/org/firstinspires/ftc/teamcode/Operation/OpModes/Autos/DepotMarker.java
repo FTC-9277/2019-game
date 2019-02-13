@@ -111,7 +111,7 @@ public class DepotMarker extends ExplosiveAuto{
 
     @Override
     protected void initLoop() {
-        robot.climbSubsystem.maintain();
+//        robot.climbSubsystem.maintain();
     }
 
 }

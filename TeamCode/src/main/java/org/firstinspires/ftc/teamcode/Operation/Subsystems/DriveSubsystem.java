@@ -40,7 +40,7 @@ public class DriveSubsystem {
         //27in = 500 ticks
         //Every tick is about 0.054 inches
 
-        return (int) Math.round(l*0.054);
+        return (int) Math.round(l*0.044);
 
 //        return (int) l*0.054;
     }
@@ -211,16 +211,59 @@ public class DriveSubsystem {
         autoDrive(lengthToTicks(inches), 0.5);
     }
 
+    public void driveEncoders(int clicks, double pow) {
+
+        double initialRight = rightEncoder();
+        double initialLeft = leftEncoder();
+
+        if(clicks > 0) {
+            while (rightEncoder() < initialRight + clicks || leftEncoder() < initialLeft + clicks) {
+                opMode.telemetry.addData("Left", leftEncoder());
+                opMode.telemetry.addData("Right", rightEncoder());
+                opMode.telemetry.update();
+                if (leftEncoder() < initialLeft + clicks) {
+                    left.set(pow);
+                } else {
+                    left.set(0);
+                }
+                if (rightEncoder() < initialRight + clicks) {
+                    right.set(pow);
+                } else {
+                    right.set(0);
+                }
+            }
+        } else {
+            while (rightEncoder() > initialRight + clicks || leftEncoder() > initialLeft + clicks) {
+                opMode.telemetry.addData("Left", leftEncoder());
+                opMode.telemetry.addData("Right", rightEncoder());
+                opMode.telemetry.update();
+                if (leftEncoder() > initialLeft + clicks) {
+                    left.set(pow);
+                } else {
+                    left.set(0);
+                }
+                if (rightEncoder() > initialRight + clicks) {
+                    right.set(pow);
+                } else {
+                    right.set(0);
+                }
+            }
+        }
+
+        left.set(0);
+        right.set(0);
+    }
+
     public void drive(int clicks) throws InterruptedException {
 
         double initialGyro = gyro.heading();
 
         if (clicks > 0) {
-            while (right.getPosition() < clicks) {
+            while (left.getPosition() < clicks) {
                 tankDrive(1, 1);
             }
         } else {
-            while(right.getPosition() > -clicks) {
+            while(left.getPosition() > -clicks) {
                 tankDrive(-1, -1);
             }
         }

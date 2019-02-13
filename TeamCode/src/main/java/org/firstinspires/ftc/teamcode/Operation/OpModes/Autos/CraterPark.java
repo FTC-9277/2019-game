@@ -43,22 +43,18 @@ public class CraterPark extends ExplosiveAuto{
         }*/
         Log.d("Robot", "Mineral Position Seen: " + mineralPosition);
         if(mineralPosition == 3){
-            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(32), 0.5,DRIVE_SCALAR);
+            robot.driveSubsystem.driveEncoders(DriveSubsystem.lengthToTicks(32), 0.5);
             //400
         } else if(mineralPosition == 1){
             robot.driveSubsystem.turn(45);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(24),0.5,DRIVE_SCALAR);
+            robot.driveSubsystem.driveEncoders(DriveSubsystem.lengthToTicks(24), 0.5);
             robot.driveSubsystem.turn(-45);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(8), 0.5, DRIVE_SCALAR);
+            robot.driveSubsystem.driveEncoders(DriveSubsystem.lengthToTicks(8), 0.5);
         } else if(mineralPosition == 2){
             robot.driveSubsystem.turn(-45);
-            robot.driveSubsystem.resetEncoders();
-            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(24),0.5,DRIVE_SCALAR);
-            robot.driveSubsystem.resetEncoders();
+            robot.driveSubsystem.driveEncoders(DriveSubsystem.lengthToTicks(24), 0.5);
             robot.driveSubsystem.turn(-45);
-            robot.driveSubsystem.autoScaledDrive(DriveSubsystem.lengthToTicks(8), 0.5, DRIVE_SCALAR);
+            robot.driveSubsystem.driveEncoders(DriveSubsystem.lengthToTicks(8), 0.5);
         }
 
     }
@@ -70,6 +66,6 @@ public class CraterPark extends ExplosiveAuto{
 
     @Override
     protected void initLoop() {
-        robot.climbSubsystem.maintain();
+//        robot.climbSubsystem.maintain();
     }
 }
