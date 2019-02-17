@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 
 public class ClimbSubsystem {
 
-    DcMotor climber;
+    public DcMotor climber;
     double encoderTicks;
 
     final double SPEED_MULTIPLIER = 0.1;
@@ -36,32 +36,44 @@ public class ClimbSubsystem {
         }
     }
 
-    public void ascend(long millis){
-        long s = System.currentTimeMillis();
-        ascend();
-        while(System.currentTimeMillis() < s+millis) {
-        }
-        stopClimbing();
-    }
+//    public void ascend(long millis){
+//        long s = System.currentTimeMillis();
+//        ascend();
+//        while(System.currentTimeMillis() < s+millis) {
+//        }
+//        stopClimbing();
+//    }
 
     public void ascend() {
-        climber.setPower(1);
+        if(getEncoderTicks() > -22000) {
+            climber.setPower(-1);
+        } else {
+            climber.setPower(0);
+        }
     }
 
     public void descend() {
-        climber.setPower(-1);
+        if(getEncoderTicks() < -1000) {
+            climber.setPower(1);
+        } else {
+            climber.setPower(0);
+        }
     }
 
-    public void descend(long millis) {
-        long s = System.currentTimeMillis();
-        descend();
-        while (System.currentTimeMillis() < s+millis){
-        }
-        stopClimbing();
-    }
+//    public void descend(long millis) {
+//        long s = System.currentTimeMillis();
+//        descend();
+//        while (System.currentTimeMillis() < s+millis){
+//        }
+//        stopClimbing();
+//    }
 
     public void stopClimbing() {
         climber.setPower(0.0);
+    }
+
+    public double getEncoderTicks() {
+        return climber.getCurrentPosition();
     }
 
 }

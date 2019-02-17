@@ -17,6 +17,7 @@ public class IntakeTest extends ExplosiveTele {
     IntakeSubsystem intakeSubsystem;
     DcMotor leftSlide, rightSlide;
     CRServo leftIntake, rightIntake, intake, indexer;
+    Servo leftDoor, rightDoor;
 
     @Override
     public void initHardware() {
@@ -27,9 +28,10 @@ public class IntakeTest extends ExplosiveTele {
         intake = hardwareMap.get(CRServo.class, "intake");
         leftIntake = hardwareMap.get(CRServo.class, "left");
         rightIntake = hardwareMap.get(CRServo.class, "right");
-        indexer = hardwareMap.get(CRServo.class, "indexer");
+        leftDoor = hardwareMap.servo.get("doorLeft");
+        rightDoor = hardwareMap.servo.get("doorRight");
 
-        intakeSubsystem = new IntakeSubsystem(leftSlide, rightSlide, intake, leftIntake, rightIntake, indexer, this);
+        intakeSubsystem = new IntakeSubsystem(leftSlide, rightSlide, intake, leftIntake, rightIntake, leftDoor, rightDoor, this);
 
     }
 
@@ -61,11 +63,7 @@ public class IntakeTest extends ExplosiveTele {
             intakeSubsystem.drop();
         }
 
-        if(mController.left_trigger > 0.75) {
-            intakeSubsystem.setIndexer(0.9);
-        } else if (mController.right_trigger > 0.75) {
-            intakeSubsystem.setIndexer(0.9);
-        }
+
 
     }
 

@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Operation.Commands.ManipulateCommand;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.ClimbSubsystem;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.Operation.Subsystems.IntakeSubsystem;
 
 @TeleOp(name = "FullTele")
 public class FullTele extends ExplosiveTele {
@@ -25,11 +26,8 @@ public class FullTele extends ExplosiveTele {
         driveCommand = new DriveCommand(robot.driveSubsystem, this);
         manipulateCommand = new ManipulateCommand(robot.intakeSubsystem, robot.climbSubsystem, robot.shooterSubsystem, robot.diverterSubsystem, this);
 
-
-
-        //        dController.setJoystickDeadzone(Controller.DeadzoneType.CIRCULAR, 0.1);
-//        mController.setJoystickDeadzone(Controller.DeadzoneType.CIRCULAR, 0.1);
-        manipulateCommand.setDiverter(0.5);
+        manipulateCommand.diverter.setDiverter(0.5);
+        manipulateCommand.intake.closeDoor(IntakeSubsystem.DoorSide.both);
     }
 
     @Override
@@ -45,6 +43,7 @@ public class FullTele extends ExplosiveTele {
         telemetry.addData("Pitch", robot.driveSubsystem.pitch());
         telemetry.addData("Right Encoder", robot.driveSubsystem.rightEncoder());
         telemetry.addData("Left Encoder", robot.driveSubsystem.leftEncoder());
+        telemetry.addData("Climber Encoder", robot.climbSubsystem.getEncoderTicks());
 
         telemetry.update();
     }

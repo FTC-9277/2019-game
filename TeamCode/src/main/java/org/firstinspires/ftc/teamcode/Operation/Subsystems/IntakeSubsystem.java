@@ -10,17 +10,24 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 
 public class IntakeSubsystem {
     DcMotor leftSlide, rightSlide;
-    CRServo intake, leftIntake, rightIntake, indexer;
+    CRServo intake, leftIntake, rightIntake;
+    Servo leftDoor, rightDoor;
     OpMode opmode;
 
-    public IntakeSubsystem(DcMotor leftSlide, DcMotor rightSlide, CRServo intake, CRServo leftIntake, CRServo rightIntake, CRServo indexer, OpMode opmode){
+    final int LEFT_DOOR_OPEN_POS = 0;
+    final int LEFT_DOOR_CLOSE_POS = 1;
+    final int RIGHT_DOOR_OPEN_POS = 1;
+    final int RIGHT_DOOR_CLOSE_POS = 0;
+
+    public IntakeSubsystem(DcMotor leftSlide, DcMotor rightSlide, CRServo intake, CRServo leftIntake, CRServo rightIntake, Servo leftDoor, Servo rightDoor, OpMode opmode){
         this.opmode = opmode;
-        this.indexer = indexer;
         this.intake = intake;
         this.leftSlide = leftSlide;
         this.rightSlide = rightSlide;
         this.leftIntake = leftIntake;
         this.rightIntake = rightIntake;
+        this.leftDoor = leftDoor;
+        this.rightDoor = rightDoor;
     }
 
     public void setLeftSlide(Double pow) {
@@ -55,13 +62,40 @@ public class IntakeSubsystem {
         leftIntake.setPower(0.0);
     }
 
-    int upCount = 0;
-    int downCount = 0;
+    public void openDoor(DoorSide side) {
+        if(side == DoorSide.left) {
+            leftDoor.setPosition(LEFT_DOOR_OPEN_POS);
+        } else if (side == DoorSide.right) {
+            rightDoor.setPosition(RIGHT_DOOR_OPEN_POS);
+        } else {
+            leftDoor.setPosition(LEFT_DOOR_OPEN_POS);
+            rightDoor.setPosition(RIGHT_DOOR_OPEN_POS);
+        }
+    }
 
-    final int COUNT_LIMIT = 1000;
+    public void closeDoor(DoorSide side) {
+        if(side == DoorSide.left) {
+            leftDoor.setPosition(LEFT_DOOR_CLOSE_POS);
+        } else if (side == DoorSide.right) {
+            rightDoor.setPosition(RIGHT_DOOR_CLOSE_POS);
+        } else {
+            leftDoor.setPosition(LEFT_DOOR_CLOSE_POS);
+            rightDoor.setPosition(RIGHT_DOOR_CLOSE_POS);
+        }
+    }
 
-    public void setIndexer(Double pow) {
-        indexer.setPower(pow);
+    public enum DoorSide {
+        left, right, both
+    }
+
+    public boolean isDoorOpen(DoorSide side) {
+        if(side == DoorSide.left) {
+            return (leftDoor.getPosition() == LEFT_DOOR_OPEN_POS);
+        } else if(side == DoorSide.right) {
+            return (rightDoor.getPosition() == RIGHT_DOOR_OPEN_POS);
+        } else {
+            return ((leftDoor.getPosition() == LEFT_DOOR_OPEN_POS) && (rightDoor.getPosition() == RIGHT_DOOR_OPEN_POS));
+        }
     }
 
 }

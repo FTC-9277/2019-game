@@ -14,10 +14,10 @@ import org.firstinspires.ftc.teamcode.Operation.Subsystems.ShooterSubsystem;
 
 public class ManipulateCommand extends Command {
 
-    IntakeSubsystem intake;
-    ClimbSubsystem climb;
-    ShooterSubsystem shooter;
-    DiverterSubsystem diverter;
+    public IntakeSubsystem intake;
+    public ClimbSubsystem climb;
+    public ShooterSubsystem shooter;
+    public DiverterSubsystem diverter;
 
     Gamepad dController, mController;
 
@@ -43,20 +43,6 @@ public class ManipulateCommand extends Command {
     @Override
     public void loop() {
 
-        //Climber
-//        if(dController.b()) {
-//            if(maintainLocked == false) {
-//                maintainLocked = true;
-//                if(isMaintaning) {
-//                    isMaintaning = false;
-//                } else {
-//                    isMaintaning = true;
-//                }
-//            }
-//            climb.maintain();
-//        } else {
-//            maintainLocked = false;
-//        }
         if(dController.a) {
             climb.descend();
         } else if(dController.y) {
@@ -76,17 +62,6 @@ public class ManipulateCommand extends Command {
 
         intake.setIntake(mController.right_stick_y*0.9);
 
-//        if(mController.rightBumper()) {
-//            intake.setIntake(0.9);
-//        }
-
-        /*
-        if(dController.rightBumper() || mController.rightBumper()) {
-            intake.setIntake(0.9);
-        } else {
-            intake.setIntake(0.0);
-        }*/
-
         if(mController.dpad_up){
             intake.pullUp();
         } else if(mController.dpad_down){
@@ -95,28 +70,23 @@ public class ManipulateCommand extends Command {
             intake.stopIntake();
         }
 
-        if(Math.abs(mController.left_stick_y) > 0.1) {
-            intake.setIndexer(mController.left_stick_y/2.5);
-        } else {
-            intake.setIndexer(0.0);
+        if(mController.left_bumper) {
+            //Toggle the left door
+            if(intake.isDoorOpen(IntakeSubsystem.DoorSide.left)) {
+                intake.closeDoor(IntakeSubsystem.DoorSide.left);
+            } else {
+                intake.openDoor(IntakeSubsystem.DoorSide.left);
+            }
         }
 
-        //Shooter
-//        if(mController.b()) {
-//            if (shooterLocked == false) { //If this is the first loop with the button pressed
-//                shooterLocked = true;
-//                if(shooter.getShooterPower() < -0.5) { //If the shooter is already stopped
-//                    //Start the shooter
-//                    shooter.setShooter(-1.0);
-//                } else {
-//                    //Stop the shooter
-//                    shooter.setShooter(0.0);
-//                }
-//            }
-//        } else {
-//            //The button is not being pressed, unlock it
-//            shooterLocked = false;
-//        }
+        if(mController.right_bumper) {
+            //Toggle the right door
+            if(intake.isDoorOpen(IntakeSubsystem.DoorSide.right)) {
+                intake.closeDoor(IntakeSubsystem.DoorSide.right);
+            } else {
+                intake.openDoor(IntakeSubsystem.DoorSide.right);
+            }
+        }
 
         if(mController.b) {
             shooter.setShooter(1.0);
@@ -126,16 +96,12 @@ public class ManipulateCommand extends Command {
 
         if(dController.dpad_up) {
             diverter.setDiverter(0.0);
-        } else if (dController.dpad_down) {
+        } else if (dController.dpad_down) { // starting position
             diverter.setDiverter(1.0);
         } else if(dController.dpad_left || dController.dpad_right) {
             diverter.setDiverter(0.35);
         }
 
-    }
-
-    public void setDiverter(Double pos) {
-        diverter.setDiverter(pos);
     }
 
     @Override

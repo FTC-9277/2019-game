@@ -386,6 +386,91 @@ public class DriveSubsystem {
         }
     }
 
+    public void turnSmall(int degrees) {
+        last = gyro.getOrientation();
+        double current = heading();
+        double target = current+degrees;
+
+        double difference = target-current;
+
+        if (target < -180){
+            target+=360;
+        } else if (target > 180){
+            target-=360;
+        }
+
+        int timeout = 2000;
+
+        if(degrees < 91) {
+            timeout = 1500;
+            if(degrees<46) {
+                timeout = 1000;
+            }
+        }
+
+        long start = System.currentTimeMillis();
+
+        while(auto.opModeIsActive() && Math.abs(heading()-target)>2 && start+timeout > System.currentTimeMillis()) {
+            current = heading();
+            difference = target - current;
+
+//            if (difference > 50) {
+//                left.set(-0.8);
+//                right.set(0.8);
+//            } else if (difference > 30) {
+//                left.set(-0.3);
+//                right.set(0.3);
+//            } else if (difference > 15) {
+//                left.set(-0.25);
+//                right.set(0.25);
+//            } else if (difference < -50) {
+//                left.set(0.8);
+//                right.set(-0.8);
+//            } else if (difference <-30){
+//                left.set(0.3);
+//                right.set(-0.3);
+//            } else if (difference <-15) {
+//                left.set(0.25);
+//                right.set(-0.25);
+//            }
+
+            if (difference > 0) { //Needs to go counterclockwise
+                left.set(-0.5);
+                right.set(0.5);
+                // } else if (difference > 30) {
+                //   left.set(-1*Math.abs(difference)*0.01234);
+                // right.set(1*Math.abs(difference)*0.01234);
+                //} else if (difference > 15) {
+                //   left.set(-1*Math.abs(difference)*0.01234);
+                // right.set(1*Math.abs(difference)*0.01234);
+            } else if (difference < 0) { //Needs to go clockwise
+                left.set(0.5);
+                right.set(-0.5);
+            }
+
+            opMode.telemetry.addData(">",heading());
+            opMode.telemetry.addData("Targ",target);
+            opMode.telemetry.update();
+        }
+        left.set(0);
+        right.set(0);
+
+    }
+
+    public void driveTime(int millis, double pow) {
+        left.set(pow);
+        right.set(pow);
+
+        long t = System.currentTimeMillis()+millis;
+
+        while(System.currentTimeMillis()<t) {
+            //Wait
+        }
+
+        left.set(0);
+        right.set(0);
+    }
+
     public void turn(int degrees) {
         last = gyro.getOrientation();
         double current = heading();
@@ -399,30 +484,53 @@ public class DriveSubsystem {
             target-=360;
         }
 
+        int timeout = 2000;
+
+        if(degrees < 91) {
+            timeout = 1500;
+            if(degrees<46) {
+                timeout = 1000;
+            }
+        }
+
         long start = System.currentTimeMillis();
 
-        while(auto.opModeIsActive() && Math.abs(heading()-target)>2 && start+2000 > System.currentTimeMillis()) {
+        while(auto.opModeIsActive() && Math.abs(heading()-target)>2 && start+timeout > System.currentTimeMillis()) {
             current = heading();
             difference = target - current;
 
-            if (difference > 50) {
-                left.set(-0.8);
-                right.set(0.8);
-            } else if (difference > 30) {
-                left.set(-0.3);
-                right.set(0.3);
-            } else if (difference > 15) {
-                left.set(-0.25);
-                right.set(0.25);
-            } else if (difference < -50) {
-                left.set(0.8);
-                right.set(-0.8);
-            } else if (difference <-30){
-                left.set(0.3);
-                right.set(-0.3);
-            } else if (difference <-15) {
-                left.set(0.25);
-                right.set(-0.25);
+//            if (difference > 50) {
+//                left.set(-0.8);
+//                right.set(0.8);
+//            } else if (difference > 30) {
+//                left.set(-0.3);
+//                right.set(0.3);
+//            } else if (difference > 15) {
+//                left.set(-0.25);
+//                right.set(0.25);
+//            } else if (difference < -50) {
+//                left.set(0.8);
+//                right.set(-0.8);
+//            } else if (difference <-30){
+//                left.set(0.3);
+//                right.set(-0.3);
+//            } else if (difference <-15) {
+//                left.set(0.25);
+//                right.set(-0.25);
+//            }
+
+            if (difference > 0) {
+                left.set(-1*Math.abs(difference)*0.01234);
+                right.set(1*Math.abs(difference)*0.01234);
+                // } else if (difference > 30) {
+                //   left.set(-1*Math.abs(difference)*0.01234);
+                // right.set(1*Math.abs(difference)*0.01234);
+                //} else if (difference > 15) {
+                //   left.set(-1*Math.abs(difference)*0.01234);
+                // right.set(1*Math.abs(difference)*0.01234);
+            } else if (difference < 0) {
+                left.set(1 * Math.abs(difference) * 0.01234);
+                right.set(-1 * Math.abs(difference) * 0.01234);
             }
 
             opMode.telemetry.addData(">",heading());
