@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 
 public class IntakeSubsystem {
     DcMotor leftSlide, rightSlide;
-    CRServo intake, leftIntake, rightIntake;
-    Servo leftDoor, rightDoor;
+    CRServo intake;//, leftIntake, rightIntake;
+    Servo leftDoor, rightDoor, leftIntake, rightIntake;
     OpMode opmode;
 
     final int LEFT_DOOR_OPEN_POS = 0;
@@ -19,7 +19,7 @@ public class IntakeSubsystem {
     final int RIGHT_DOOR_OPEN_POS = 1;
     final int RIGHT_DOOR_CLOSE_POS = 0;
 
-    public IntakeSubsystem(DcMotor leftSlide, DcMotor rightSlide, CRServo intake, CRServo leftIntake, CRServo rightIntake, Servo leftDoor, Servo rightDoor, OpMode opmode){
+    public IntakeSubsystem(DcMotor leftSlide, DcMotor rightSlide, CRServo intake, Servo leftIntake, Servo rightIntake, Servo leftDoor, Servo rightDoor, OpMode opmode){
         this.opmode = opmode;
         this.intake = intake;
         this.leftSlide = leftSlide;
@@ -48,18 +48,18 @@ public class IntakeSubsystem {
     }
 
     public void drop() {
-        leftIntake.setPower(-0.5);
-        rightIntake.setPower(0.5);
+        leftIntake.setPosition(-1);
+        rightIntake.setPosition(1);
     }
 
     public void pullUp() {
-        rightIntake.setPower(-0.5);
-        leftIntake.setPower(0.5);
+        rightIntake.setPosition(0);
+        leftIntake.setPosition(0);
     }
 
     public void stopIntake() {
-        rightIntake.setPower(0.0);
-        leftIntake.setPower(0.0);
+        //rightIntake.setPower(0.0);
+        //leftIntake.setPower(0.0);
     }
 
     public void openDoor(DoorSide side) {
