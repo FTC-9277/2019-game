@@ -28,6 +28,8 @@ public class FullTele extends ExplosiveTele {
 
         manipulateCommand.diverter.setDiverter(0.5);
         manipulateCommand.intake.closeDoor(IntakeSubsystem.DoorSide.both);
+        manipulateCommand.intake.leftIntake.setPosition(-1);
+        manipulateCommand.intake.rightIntake.setPosition(1);
     }
 
     @Override

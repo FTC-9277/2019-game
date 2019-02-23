@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
 
-@Autonomous(name = "Crater Marker")
+//@Autonomous(name = "Crater Marker")
 public class CraterMarker extends ExplosiveAuto{
     Sampler sample;
     ExplosivesRobot robot;

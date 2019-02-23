@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveAuto;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 
-@Autonomous(name = "Turn Test")
+//@Autonomous(name = "Turn Test")
 public class TurnTest extends ExplosiveAuto {
 
     ExplosivesRobot robot;

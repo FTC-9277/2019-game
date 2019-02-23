@@ -21,8 +21,8 @@ import org.firstinspires.ftc.teamcode.Sensors.Gyro;
 
 public class ExplosivesRobot {
     DcMotor fLeft, bLeft, fRight, bRight, leftSlide, rightSlide, shooter, climber;
-    CRServo intake, leftIntake, rightIntake;
-    Servo diverter, leftDoor, rightDoor;
+    CRServo intake;
+    Servo diverter, leftDoor, rightDoor, leftIntake, rightIntake;
     Gyro gyro;
     LinearOpMode opMode;
     MotorGroup a,b;
@@ -51,8 +51,8 @@ public class ExplosivesRobot {
         leftSlide = opmode.hardwareMap.dcMotor.get("leftSlide");
         rightSlide = opmode.hardwareMap.dcMotor.get("rightSlide");
         intake = opmode.hardwareMap.crservo.get("intake");
-        leftIntake = opmode.hardwareMap.crservo.get("left");
-        rightIntake = opmode.hardwareMap.crservo.get("right");
+        leftIntake = opmode.hardwareMap.servo.get("left");
+        rightIntake = opmode.hardwareMap.servo.get("right");
         leftDoor = opmode.hardwareMap.servo.get("doorLeft");
         rightDoor = opmode.hardwareMap.servo.get("doorRight");
 
@@ -72,8 +72,6 @@ public class ExplosivesRobot {
         intakeSubsystem = new IntakeSubsystem(leftSlide, rightSlide, intake, leftIntake, rightIntake, leftDoor, rightDoor, opmode);
         shooterSubsystem = new ShooterSubsystem(shooter, opmode);
         diverterSubsystem = new DiverterSubsystem(diverter, opmode);
-
-
 
     }
 }

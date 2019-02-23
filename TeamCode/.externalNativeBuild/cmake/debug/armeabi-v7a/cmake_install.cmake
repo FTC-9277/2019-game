@@ -1,4 +1,4 @@
-# Install script for directory: /Users/alex/Library/Mobile Documents/com~apple~CloudDocs/LHPS/General/Robotics Team/2019/2019-game-fixed/TeamCode/src/main/jni
+# Install script for directory: /Users/alex/Library/Mobile Documents/com~apple~CloudDocs/LHPS/General/Robotics Team/2019/2019-game-fixed-4/TeamCode/src/main/jni
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/alex/Library/Mobile Documents/com~apple~CloudDocs/LHPS/General/Robotics Team/2019/2019-game-fixed/TeamCode/.externalNativeBuild/cmake/debug/armeabi-v7a/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/alex/Library/Mobile Documents/com~apple~CloudDocs/LHPS/General/Robotics Team/2019/2019-game-fixed-4/TeamCode/.externalNativeBuild/cmake/debug/armeabi-v7a/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

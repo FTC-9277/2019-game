@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.ExplosiveAuto;
 import org.firstinspires.ftc.teamcode.Operation.ExplosivesRobot;
 import org.firstinspires.ftc.teamcode.Operation.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Vision.Sampler;
-@Autonomous(name = "Depot Park")
+//@Autonomous(name = "Depot Park")
 public class DepotPark extends ExplosiveAuto{
     Sampler sample;
     ExplosivesRobot robot;

@@ -7,22 +7,24 @@
 #include <jni.h>
 
 extern "C" {
-    JNIEXPORT jint JNICALL Java_org_firstinspires_ftc_teamcode_Vision_nativePipeline_FloodFill(JNIEnv *env, jobject obj, jintArray arr, jint width, jint height);
-    int getRed(int colorInt);
-    int getGreen(int colorInt);
-    int getBlue(int colorInt);
-    bool isW(int r, int g, int b);
-    bool isWhite(int colorInt);
-    bool isY(int r, int g, int b);
-    bool isYellow(int colorInt);
-    bool in_bound_y(int x, int y);
-    bool in_bound_w(int x, int y);
-    int * ys();
-    int * ws();
-    void fetch(int p[2]);
-    void yfill();
-    void wfill();
-    int sample(int y, int w[2]);
+JNIEXPORT jint JNICALL Java_org_firstinspires_ftc_teamcode_Vision_nativePipeline_FloodFill(JNIEnv *env, jobject obj, jintArray arr, jint width, jint height);
+int getRed(int colorInt);
+int getGreen(int colorInt);
+int getBlue(int colorInt);
+bool isW(int r, int g, int b);
+bool isWhite(int colorInt);
+bool isY(int r, int g, int b);
+bool isYellow(int colorInt);
+bool in_bound_y(int x, int y);
+bool in_bound_w(int x, int y);
+int * ys();
+int * ws();
+void fetch(int p[2]);
+void yfill();
+void wfill();
+int sample(int y, int w[2]);
+int ysize();
+int uno_sample(int y, int ys);
 }
 typedef struct my_struct_t{
     int w, h;
@@ -70,11 +72,13 @@ JNIEXPORT jint JNICALL Java_org_firstinspires_ftc_teamcode_Vision_nativePipeline
     my_struct.w = (int) width;
     my_struct.h = (int) height;
 
-    yfill();
-    wfill();
+    int k = ysize();
+
+    //yfill();
+    //wfill();
 
 
-    int output = sample(my_struct.yellow,my_struct.white);
+    int output = uno_sample(my_struct.yellow, k);//sample(my_struct.yellow,my_struct.white);
 
     //RELEASE
     env->ReleaseIntArrayElements(arr, my_struct.pixels, 0);
@@ -104,6 +108,18 @@ int sample(int y, int w[2]){
     } else {
         return 3;
     }
+}
+
+int uno_sample(int y, int ys){
+    int onethird = my_struct.w/3;
+    int twothird = onethird*2;
+
+    if (onethird < y && y < twothird){
+        if (ys > 150) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 void wfill(){
@@ -185,6 +201,94 @@ void wfill(){
     std::deque<int>().swap(qx);
     std::deque<int>().swap(qy);
 }
+
+int ysize(){
+    int* s;
+
+    s = ys();
+
+    int x, y;
+
+    std::deque<int> qx;
+    std::deque<int> qy;
+
+    int avg_x = 0;
+    int avg_y = 0;
+    int count = 0;
+    int acty = 0;
+
+    int top = 0;
+
+    qx.push_back(s[0]);
+    qy.push_back(s[1]);
+
+    while (s[0] != -1){
+        fetch(s);
+        while (qx.size() != 0){
+            x = s[0] + my_struct.xunit;
+            y = s[1];
+            if (in_bound_y(x,y)){
+                qx.push_front(x);
+                qy.push_front(y);
+            }
+
+            x = s[0] - my_struct.xunit;
+            y = s[1];
+            if (in_bound_y(x,y)){
+                qx.push_front(x);
+                qy.push_front(y);
+            }
+
+            x = s[0];
+            y = s[1] - my_struct.yunit;
+            if (in_bound_y(x,y)){
+                qx.push_front(x);
+                qy.push_front(y);
+            }
+
+            x = s[0];
+            y = s[1] + my_struct.yunit;
+            if (in_bound_y(x,y)){
+                qx.push_front(x);
+                qy.push_front(y);
+            }
+
+            count++;
+            avg_x += s[0];
+            avg_y += s[1];
+
+
+            s[0] = qx.front();
+            s[1] = qy.front();
+            qx.pop_front();
+            qy.pop_front();
+        }
+        if (count > top) {
+            my_struct.yellow = (avg_x / count);
+            acty = avg_y/count;
+            top = count;
+        }
+        count = 0;
+        avg_x = 0;
+
+        s = ys();
+        qx.push_back(s[0]);
+        qy.push_back(s[1]);
+    }
+    delete s;
+    std::deque<int>().swap(qx);
+    std::deque<int>().swap(qy);
+
+    int onet = my_struct.h/3;
+    int twot = onet*2;
+
+    if (acty < twot && acty > onet){
+        my_struct.yellow = 0;
+    }
+
+    return top;
+}
+
 void yfill(){
     int* s;
 
@@ -317,7 +421,7 @@ bool in_bound_y(int x, int y) {
                 return true;
             } else if (!isWhite(my_struct.pixels[y*my_struct.w+x])){
                 my_struct.been[y*my_struct.w+x] = true;
-           }
+            }
         }
     }
     return false;

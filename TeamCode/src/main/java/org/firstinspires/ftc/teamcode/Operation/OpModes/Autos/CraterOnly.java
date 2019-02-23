@@ -51,27 +51,62 @@ public class CraterOnly extends ExplosiveAuto{
 
     @Override
     public void body() throws InterruptedException {
-        int mineralPosition = sample.sample();
-        //int mineralPosition = 3;
-        Log.d("Robot", "Sampled: " + mineralPosition);
-/*
-        long time = System.currentTimeMillis();
-        while(System.currentTimeMillis() - time < 2000 && opModeIsActive()){
-            Thread.sleep(1);
-        }*/
-    robot.driveSubsystem.driveEncoders(200, 0.5);
+
+        telemetry.addData("Encoder", robot.climbSubsystem.climber.getCurrentPosition());
+        telemetry.update();
+
+        //Climb
+        robot.climbSubsystem.climber.setPower(-1);
+        while(robot.climbSubsystem.climber.getCurrentPosition() > -19000 && opModeIsActive()) {
+            telemetry.addData("Encoder", robot.climbSubsystem.climber.getCurrentPosition());
+            telemetry.update();
+        }
+
+        telemetry.addData("Encoder", robot.climbSubsystem.climber.getCurrentPosition());
+        telemetry.update();
+
+        robot.driveSubsystem.right.set(0.8);
+        robot.driveSubsystem.left.set(-0.8);
+        waitMillis(200);
+        robot.driveSubsystem.driveEncoders(10, 0.8);
+        robot.driveSubsystem.right.set(-0.6);
+        robot.driveSubsystem.left.set(0.8);
+        waitMillis(150);
+        robot.driveSubsystem.driveEncoders(-5, -0.5);
+
+        //Sampling
+        int mineralPosition = 3;
+        if(sample.sample() == 1) {
+            //Good
+        } else {
+            //Turn 45 degrees
+            robot.driveSubsystem.turn(-60);
+            if(sample.sample() == 1) {
+                //Left mineral
+                mineralPosition = 1;
+                robot.driveSubsystem.turn(60);
+            } else {
+                //Right mineral
+                mineralPosition = 2;
+                robot.driveSubsystem.turn(60);
+            }
+        }
+
+        waitMillis(500);
+
+        robot.driveSubsystem.driveEncoders(200, 0.8);
         Log.d("Robot", "Mineral Position Seen: " + mineralPosition);
         if(mineralPosition == 3){
-            robot.driveSubsystem.driveEncoders(800, 0.8);
+            robot.driveSubsystem.driveEncoders(650, 0.8);
         } else if(mineralPosition == 2){ // right mineral
-            robot.driveSubsystem.turn(50);
-            robot.driveSubsystem.driveEncoders(750, 0.5);
-            robot.driveSubsystem.turn(-60);
+            robot.driveSubsystem.turn(60);
+            robot.driveSubsystem.driveEncoders(750, 0.8);
+            robot.driveSubsystem.turn(-70);
             robot.driveSubsystem.driveEncoders(100, 0.7);
         } else if(mineralPosition == 1){ // left mineral
-            robot.driveSubsystem.turn(-50);
-            robot.driveSubsystem.driveEncoders(750, 0.5);
-            robot.driveSubsystem.turn(60);
+            robot.driveSubsystem.turn(-60);
+            robot.driveSubsystem.driveEncoders(750, 0.8);
+            robot.driveSubsystem.turn(70);
             robot.driveSubsystem.driveEncoders(100, 0.7);
         }
     }
@@ -87,7 +122,7 @@ public class CraterOnly extends ExplosiveAuto{
 
     void waitMillis(int millis) {
         long t = System.currentTimeMillis()+millis;
-        while(System.currentTimeMillis()<t) {
+        while(System.currentTimeMillis()<t && opModeIsActive()) {
             //Do nothing
         }
     }

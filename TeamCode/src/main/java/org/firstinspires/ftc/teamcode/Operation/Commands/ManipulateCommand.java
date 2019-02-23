@@ -32,15 +32,15 @@ public class ManipulateCommand extends Command {
     }
     @Override
     public void init() {
-
+        intake.closeDoor(IntakeSubsystem.DoorSide.both);
     }
 
     @Override
     public void start() {
-
     }
 
-    public boolean locked = false;
+    public boolean leftLocked = false;
+    public boolean rightLocked = false;
 
     @Override
     public void loop() {
@@ -64,44 +64,53 @@ public class ManipulateCommand extends Command {
 
         intake.setIntake(mController.right_stick_y*0.9);
 
-
 //
 //        if (locked == false) {
-            if (mController.dpad_up) {
+        if (mController.dpad_up) {
 //                locked = true;
-                intake.pullUp();
-            } else if (mController.dpad_down) {
+            intake.pullUp();
+        } else if (mController.dpad_down) {
 //                locked = true;
-                intake.drop();
-            }
+            intake.drop();
+        }
 //        } else if (!mController.dpad_up && !mController.dpad_down) {
 //            locked = false;
 //        }
 
         if(mController.y) {
-            intake.leftIntake.setPosition(1);
-            intake.rightIntake.setPosition(-1);
-        } else if (mController.a) {
             intake.leftIntake.setPosition(-1);
             intake.rightIntake.setPosition(1);
+        } else if (mController.a) {
+            intake.leftIntake.setPosition(0);
+            intake.rightIntake.setPosition(0);
         }
 
         if(mController.left_bumper) {
-            //Toggle the left door
-            if(intake.isDoorOpen(IntakeSubsystem.DoorSide.left)) {
-                intake.closeDoor(IntakeSubsystem.DoorSide.left);
-            } else {
-                intake.openDoor(IntakeSubsystem.DoorSide.left);
+            if (leftLocked == false) {
+                leftLocked = true;
+                //Toggle the left door
+                if (intake.isDoorOpen(IntakeSubsystem.DoorSide.left)) {
+                    intake.closeDoor(IntakeSubsystem.DoorSide.left);
+                } else {
+                    intake.openDoor(IntakeSubsystem.DoorSide.left);
+                }
             }
+        } else {
+            leftLocked = false;
         }
 
         if(mController.right_bumper) {
-            //Toggle the right door
-            if(intake.isDoorOpen(IntakeSubsystem.DoorSide.right)) {
-                intake.closeDoor(IntakeSubsystem.DoorSide.right);
-            } else {
-                intake.openDoor(IntakeSubsystem.DoorSide.right);
+            if (rightLocked == false) {
+                rightLocked = true;
+                //Toggle the right door
+                if (intake.isDoorOpen(IntakeSubsystem.DoorSide.right)) {
+                    intake.closeDoor(IntakeSubsystem.DoorSide.right);
+                } else {
+                    intake.openDoor(IntakeSubsystem.DoorSide.right);
+                }
             }
+        } else {
+            rightLocked = false;
         }
 
         if(mController.b) {
@@ -111,11 +120,11 @@ public class ManipulateCommand extends Command {
         }
 
         if(dController.dpad_up) {
-            diverter.setDiverter(0.0);
+            diverter.setDiverter(-0.1);
         } else if (dController.dpad_down) { // starting position
-            diverter.setDiverter(1.0);
+            diverter.setDiverter(0.5);
         } else if(dController.dpad_left || dController.dpad_right) {
-            diverter.setDiverter(0.35);
+            diverter.setDiverter(-0.5);
         }
 
     }

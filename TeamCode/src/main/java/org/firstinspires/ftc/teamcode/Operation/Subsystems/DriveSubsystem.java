@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.FtcExplosivesPackage.Subsystem;
 import org.firstinspires.ftc.teamcode.Sensors.Gyro;
 
 public class DriveSubsystem {
-    MotorGroup left, right;
+    public MotorGroup left, right;
     double currentLeft, currentRight;
     OpMode opMode;
     LinearOpMode auto;
@@ -217,7 +217,7 @@ public class DriveSubsystem {
         double initialLeft = leftEncoder();
 
         if(clicks > 0) {
-            while (rightEncoder() < initialRight + clicks || leftEncoder() < initialLeft + clicks) {
+            while (rightEncoder() < initialRight + clicks && auto.opModeIsActive() || leftEncoder() < initialLeft + clicks  && auto.opModeIsActive()) {
                 opMode.telemetry.addData("Left", leftEncoder());
                 opMode.telemetry.addData("Right", rightEncoder());
                 opMode.telemetry.update();
@@ -233,7 +233,7 @@ public class DriveSubsystem {
                 }
             }
         } else {
-            while (rightEncoder() > initialRight + clicks || leftEncoder() > initialLeft + clicks) {
+            while (rightEncoder() > initialRight + clicks || leftEncoder() > initialLeft + clicks && auto.opModeIsActive()) {
                 opMode.telemetry.addData("Left", leftEncoder());
                 opMode.telemetry.addData("Right", rightEncoder());
                 opMode.telemetry.update();
@@ -259,16 +259,16 @@ public class DriveSubsystem {
         double initialGyro = gyro.heading();
 
         if (clicks > 0) {
-            while (left.getPosition() < clicks) {
+            while (left.getPosition() < clicks && auto.opModeIsActive()) {
                 tankDrive(1, 1);
             }
         } else {
-            while(left.getPosition() > -clicks) {
+            while(left.getPosition() > -clicks && auto.opModeIsActive()) {
                 tankDrive(-1, -1);
             }
         }
 
-        while(Math.abs(initialGyro-gyro.heading()) > 5) {
+        while(Math.abs(initialGyro-gyro.heading()) > 5 && auto.opModeIsActive()) {
             if (gyro.heading() > initialGyro) { //Counterclockwise, should be clockwise
                 left.set(0.3);
                 right.set(0);
@@ -410,7 +410,7 @@ public class DriveSubsystem {
 
         long start = System.currentTimeMillis();
 
-        while(auto.opModeIsActive() && Math.abs(heading()-target)>2 && start+timeout > System.currentTimeMillis()) {
+        while(auto.opModeIsActive() && Math.abs(heading()-target)>2 && start+timeout > System.currentTimeMillis() && auto.opModeIsActive()) {
             current = heading();
             difference = target - current;
 
@@ -463,7 +463,7 @@ public class DriveSubsystem {
 
         long t = System.currentTimeMillis()+millis;
 
-        while(System.currentTimeMillis()<t) {
+        while(System.currentTimeMillis()<t && auto.opModeIsActive()) {
             //Wait
         }
 
